@@ -1,0 +1,9 @@
+language: r
+sudo: required
+
+r_github_packages:
+  - ./travis-tool.sh github_package jimhester/covr
+
+after_success:
+  - Rscript -e 'library(covr);coveralls()'
+  
