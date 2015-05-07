@@ -1,0 +1,18 @@
+{
+    "contents" : "\n\nTestFrame <- data.frame(\n  scoreText = c(\n    '45-H.Stover 30 yards Field Goal is Good.'\n    ,'11-T.Hunt 36 yards Field Goal is No Good.'\n    ,'45-H.Stover extra point is good.'\n    )\n  )\n\n\ncontext(\"Field Goal Attempts\")\ntest_that(\"Field Goal Attempts are correctly parsing\", {\n  FG <- ParseFG(TestFrame)\n  \n  expect_true(all(FG$FGAtt))\n  expect_equal(FG$FGYards,\n                    c(30,36,20))\n  expect_equal(FG$Kicker,\n                    c(\"45-H.Stover\"\n                      ,\"11-T.Hunt\"\n                      ,\"45-H.Stover\"\n                      ))\n  expect_equal(FG$FGGood,\n                    c(TRUE\n                      ,FALSE\n                      ,TRUE\n                      ))\n  \n  \n})",
+    "created" : 1422823206800.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "343967319",
+    "id" : "20A30473",
+    "lastKnownWriteTime" : 1422827984,
+    "path" : "~/Dropbox/cfb/tests/testthat/test_ParseFG.R",
+    "project_path" : "tests/testthat/test_ParseFG.R",
+    "properties" : {
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 0,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

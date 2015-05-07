@@ -1,0 +1,18 @@
+{
+    "contents" : "#' @title clean text from NCAA scrape\n#' @export\n\ncleanText <- function(x){\n    t1 <- gsub('\\t', '', x)\n    t2 <- gsub(' {2,}', ' ', t1)\n    t3 <- gsub('\\\"', '', t2)\n    t4 <- gsub(',$', '', t3)\n    t5 <- gsub(' scoreText : | driveText : | visitingScore : | homeScore : | time : | teamId : | shortTitle : ', '', t4)\n\n    t5\n    \n}\n",
+    "created" : 1422227454837.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "89024832",
+    "id" : "CB24F47",
+    "lastKnownWriteTime" : 1422423530,
+    "path" : "~/Dropbox/cfb/R/cleanText.R",
+    "project_path" : "R/cleanText.R",
+    "properties" : {
+        "tempName" : "Untitled3"
+    },
+    "relative_order" : 0,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

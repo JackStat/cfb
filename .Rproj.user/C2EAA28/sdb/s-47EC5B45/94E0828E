@@ -1,0 +1,18 @@
+{
+    "contents" : "\n\nTestFrame <- data.frame(\n  scoreText = c(\n    '16-N.Strock incomplete.'\n    ,'5-M.Julian incomplete. Intended for 80-M.Roberts.'\n    ,'5-M.Julian complete to 24-D.Jones-Moore. 24-D.Jones-Moore to TOL 49 for 6 yards.'\n    ,'11-L.Woodside complete to 4-C.Jones. 4-C.Jones to KNT 11 for 1 yard.'\n    ,'16-N.Strock complete to 7-C.Pierce. 7-C.Pierce runs 3 yards for a touchdown.'\n    ,'10-C.Reardon complete to 7-C.Pierce. 7-C.Pierce to KNT 25 for no gain.'\n    ,'11-L.Woodside complete to 9-A.Russell. 9-A.Russell runs ob at TOL 33 for 8 yards.'\n    ,'11-L.Woodside complete to 9-A.Russell. 9-A.Russell pushed ob at KNT 11 for 5 yards.'\n    ,'8-T.Broadway complete to 24-G.Fuselier. 24-G.Fuselier to ULL 34 for -1 yard (25-B.Lane Jr.).'\n    )\n  )\n\n\ncontext(\"Passing Attempts\")\ntest_that(\"Passing Attempts are correctly parsing\", {\n  Passes <- ParsePass(TestFrame)\n  \n  expect_true(all(Passes$PassAtt))\n  expect_equal(Passes$PassYards,\n                    c(NA, NA, 6, 1, 3, 0, 8, 5, -1))\n  expect_equal(Passes$Passer,\n                    c(\"16-N.Strock\"\n                      ,\"5-M.Julian\"\n                      ,\"5-M.Julian\"\n                      ,\"11-L.Woodside\"\n                      ,\"16-N.Strock\"\n                      ,\"10-C.Reardon\"\n                      ,\"11-L.Woodside\"\n                      ,\"11-L.Woodside\"\n                      ,\"8-T.Broadway\"\n                      ))\n  expect_equal(Passes$Receiver,\n                  c(NA\n                    ,\"80-M.Roberts\"\n                    ,\"24-D.Jones-Moore\"\n                    ,\"4-C.Jones\"\n                    ,\"7-C.Pierce\"\n                    ,\"7-C.Pierce\"\n                    ,\"9-A.Russell\"\n                    ,\"9-A.Russell\"\n                    ,\"24-G.Fuselier\"\n                    ))  \n  \n})",
+    "created" : 1422765565606.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "169293584",
+    "id" : "94E0828E",
+    "lastKnownWriteTime" : 1422822360,
+    "path" : "~/Dropbox/cfb/tests/testthat/test_ParsePass.R",
+    "project_path" : "tests/testthat/test_ParsePass.R",
+    "properties" : {
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 0,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

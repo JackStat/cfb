@@ -1,0 +1,18 @@
+{
+    "contents" : "#' @title Parse Rushing Attempts from NCAA scrape\n#' \n#' \n#' \n#' @export\n\n\n\nParseRush <- function(x){\n  # - Style 1\n  regParse = \n    paste0(\n      '([0-9]{1,4}-[A-Z]\\\\.[A-Za-z\\\\-]{1,20}) '\n      ,'(runs ob at|runs to|scrambles to|to|pushed ob|pushed ob at|scrambles, runs ob at|sacked at) '\n      ,'([A-Z]{2,4}) ([0-9]{1,3}) '\n      ,'(for) (-|)([0-9]{1,3}) '\n      ,'(yards|yard)(\\\\.| \\\\([^*]+\\\\)\\\\.)'\n    )\n    #Fixing no gain...\n  x[,\"scoreText\"] <- gsub('no gain', '0 yards', x[,\"scoreText\"])\n  \n  excludes = 'complete|kicks|Penalty|punts|FUMBLES|penalty'\n  Cond <- grepl(regParse, x[,'scoreText']) & !grepl(excludes, x[,'scoreText'])\n  x$Rusher[Cond] = gsub(regParse, '\\\\1', x[Cond,'scoreText'])\n  x$RushAtt = FALSE\n  x$RushAtt[Cond] = TRUE\n  x$RushYards[Cond] = gsub(regParse, '\\\\6\\\\7', x[Cond,'scoreText'])\n  \n  # - Run for TD\n  regParse3 = '([0-9]{1,4}-[A-Z]\\\\.[A-Za-z]{1,20}) runs ([0-9]{1,3}) (yard|yards) for a touchdown.'\n  Cond3 <- grepl(regParse3, x[,'scoreText']) & !grepl(excludes, x[,'scoreText']) & !Cond\n  x$Rusher[Cond3] = gsub(regParse3, '\\\\1', x[Cond3,'scoreText'])\n  x$RushAtt[Cond3] = TRUE\n  x$RushYards[Cond3] = gsub(regParse3, '\\\\2', x[Cond3,'scoreText'])\n  \n  x$RushYards <- as.numeric(x$RushYards)\n  x  \n}\n",
+    "created" : 1422721910024.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1580507278",
+    "id" : "6343BB7",
+    "lastKnownWriteTime" : 1422852347,
+    "path" : "~/Dropbox/cfb/R/ParseRush.R",
+    "project_path" : "R/ParseRush.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 0,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

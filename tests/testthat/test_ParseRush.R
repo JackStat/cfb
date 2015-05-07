@@ -1,0 +1,76 @@
+
+
+TestFrame <- data.frame(
+  scoreText = c(
+    '15-E.McGuire to NEV 46 for 6 yards (95-P.Choudja).'
+    ,'8-T.Broadway to NEV 31 for -15 yards (50-J.McNeal).'
+    ,'15-E.McGuire to NEV 46 for 6 yards.'
+    ,'8-T.Broadway to NEV 31 for -15 yards.'
+    ,'15-T.Hunt to UTAH 46 for 1 yard (95-P.Choudja).'
+    ,'15-T.Hunt to UTAH 46 for 1 yard.'
+    ,'15-T.Hunt scrambles to UTAH 46 for 1 yard.'
+    ,'15-T.Hunt scrambles to UTAH 46 for 1 yard.'
+    ,'8-T.Broadway scrambles to NEV 31 for -15 yards (50-J.McNeal).'
+    ,'8-T.Broadway scrambles to NEV 31 for 15 yards (50-J.McNeal).'
+    ,'15-T.Hunt scrambles to UTAH 46 for no gain.'
+    ,'15-T.Hunt scrambles to UTAH 46 for no gain (50-J.McNeal).'
+    ,'58-D.Dixon pushed ob UTAH 46 for no gain (50-J.McNeal).'
+    ,'58-D.Dixon pushed ob UTAH 46 for no gain.'
+    ,'58-D.Dixon pushed ob UTAH 46 for -15 yards.'
+    ,'58-D.Dixon pushed ob UTAH 46 for 15 yards (50-J.McNeal).'
+    ,'17-C.Fajardo pushed ob at ULL 11 for 15 yards (35-B.Anyama).'
+    ,'8-T.Broadway scrambles to ULL 17 for 5 yards (93-D.Roberts-Jordan).'
+    ,'7-T.Wilson runs 8 yards for a touchdown.'
+    ,'18-G.Grayson scrambles, runs ob at UTH 44 for 2 yards.'
+    ,'7-T.Wilson runs ob at UTH 40 for 2 yards.'
+    ,'6-C.Clement to BGN 8 for 8 yards (35-J.Sanford,63-G.Schwieterman).'
+    ,'6-D.Jackson to NEV 34 for no gain (59-J.Molbert,58-D.Scheurich).'
+    ,'16-N.Strock sacked at KNT 24 for -1 yard (97-O.Jones).'
+    ,'18-G.Grayson sacked at CSU 33 for -10 yards (51-J.Fanaika).'
+    )
+  )
+
+OddCases <- data.frame(
+  scoreText = c(
+    '23-D.Booker to ORS 6 for 53 yards. Team penalty on ORS, Offside, declined.'
+    ,'5-M.Julian kneels at KNT 33 for -2 yards.'
+    )
+  )
+
+
+context("Rushing Attempts")
+test_that("Rushing Attempts are correctly parsing", {
+  Rushes <- ParseRush(TestFrame)
+  
+  expect_true(all(Rushes$RushAtt))
+  expect_equal(Rushes$RushYards,
+                    c(6,-15,6,-15,1,1,1,1,-15,15,0,0,0,0,-15,15,15,5,8,2,2,8,0,-1,-10))
+  expect_true(all(Rushes$Rusher == 
+                    c("15-E.McGuire"
+                      ,"8-T.Broadway"
+                      ,"15-E.McGuire"
+                      ,"8-T.Broadway"
+                      ,"15-T.Hunt"
+                      ,"15-T.Hunt"
+                      ,"15-T.Hunt"
+                      ,"15-T.Hunt"
+                      ,"8-T.Broadway"
+                      ,"8-T.Broadway"
+                      ,"15-T.Hunt"
+                      ,"15-T.Hunt"
+                      ,"58-D.Dixon"
+                      ,"58-D.Dixon"
+                      ,"58-D.Dixon"
+                      ,"58-D.Dixon"
+                      ,"17-C.Fajardo"
+                      ,"8-T.Broadway"
+                      ,"7-T.Wilson"
+                      ,"18-G.Grayson"
+                      ,"7-T.Wilson"
+                      ,"6-C.Clement"
+                      ,"6-D.Jackson"
+                      ,"16-N.Strock"
+                      ,"18-G.Grayson"
+                      )))  
+  
+})

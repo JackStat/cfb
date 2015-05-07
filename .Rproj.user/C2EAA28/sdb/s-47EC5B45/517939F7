@@ -1,0 +1,18 @@
+{
+    "contents" : "#' @title Identify No Plays\n#' \n#' \n#' @export\n\nParsePenalty <- function(x){\n  \n  \n  x$Penalty = FALSE\n  x$NoPlay = FALSE\n  x$PenaltyYards = rep(NA, nrow(x))\n  x$PenaltyType = rep(NA, nrow(x))\n  x$PenaltyPlayer = rep(NA, nrow(x))\n  \n  # - Penalty for incompletes\n  regParse = paste0(\n    '([0-9]{1,4}-[A-Z]\\\\.[A-Za-z]{1,20}) (incomplete)\\\\. '\n    ,'Penalty on ([A-Z]{2,4}) '\n    ,'([0-9]{1,4}-[A-Z]\\\\.[A-Za-z]{1,20}), '\n    ,'(Pass interference|Illegal substitution), '\n    ,'([0-9]{1,3}) yards, enforced at ([A-Z]{1,3}) ([0-9]{1,2})\\\\. No Play\\\\.'\n  )\n  \n  Cond <- grepl(regParse, x[,'scoreText'])\n  \n  x$Penalty[Cond] = TRUE\n  x$PenaltyYards[Cond] = gsub(regParse, '\\\\6', x[Cond, 'scoreText'])\n  x$PenaltyType[Cond] = gsub(regParse, '\\\\5', x[Cond, 'scoreText'])\n  x$NoPlay[Cond] = TRUE\n  x$PenaltyPlayer[Cond] = gsub(regParse, '\\\\4', x[Cond, 'scoreText'])\n  \n  # - Penalty\n  regParse = paste0(\n    'Penalty on ([A-Z]{2,4}) '\n    ,'([0-9]{1,4}-[A-Z]\\\\.[A-Za-z]{1,20}), '\n    ,'(Pass interference|Illegal substitution|False start|Personal Foul|Delay of game|Ineligible player downfield during passing down|Unsportsmanlike conduct), '\n    ,'([0-9]{1,3}) yards, enforced at ([A-Z]{1,3}) ([0-9]{1,2})\\\\. No Play\\\\.'\n  )\n  \n  Cond2 <- grepl(regParse, x[,'scoreText']) & !Cond\n  \n  x$Penalty[Cond2] = TRUE\n  x$PenaltyYards[Cond2] = gsub(regParse, '\\\\4', x[Cond2, 'scoreText'])\n  x$PenaltyType[Cond2] = gsub(regParse, '\\\\3', x[Cond2, 'scoreText'])\n  x$NoPlay[Cond2] = TRUE\n  x$PenaltyPlayer[Cond2] = gsub(regParse, '\\\\2', x[Cond2, 'scoreText'])\n  \n  x$PenaltyYards <- as.numeric(x$PenaltyYards)\n  x\n  \n}\n",
+    "created" : 1427760229832.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2629332415",
+    "id" : "517939F7",
+    "lastKnownWriteTime" : 1427768949,
+    "path" : "~/Dropbox/cfb/R/ParsePenalty.R",
+    "project_path" : "R/ParsePenalty.R",
+    "properties" : {
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 20,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

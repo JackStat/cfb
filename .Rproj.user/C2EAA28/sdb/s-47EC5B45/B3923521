@@ -1,0 +1,18 @@
+{
+    "contents" : "#' @title Find and Parse Field Goal\n#' \n#' \n#' @export\n\n\nParseFG <- function(x){\n  # - Field Goals\n  regParse = '([0-9]{1,4}-[A-Z]\\\\.[A-Za-z]{1,20}) ([0-9]{1,3}) yards Field Goal is (Good|No Good)\\\\.'\n  Cond <- grepl(regParse, x[,\"scoreText\"]) & !grepl('Penalty', x[,\"scoreText\"])\n  x$FieldGoal = FALSE\n  x$FieldGoal[Cond] = TRUE\n  \n  x$Kicker[Cond] = gsub(regParse, '\\\\1', x[Cond,\"scoreText\"])\n  x$FGYards[Cond] = gsub(regParse, '\\\\2', x[Cond,\"scoreText\"])\n  x$FGGood[Cond] = gsub(regParse, '\\\\3', x[Cond,\"scoreText\"]) == \"Good\"\n\n  # - Extra Points\n  regParse2 = '([0-9]{1,4}-[A-Z]\\\\.[A-Za-z]{1,20}) extra point is (Good|No Good|good|no good)\\\\.'\n  Cond2 <- grepl(regParse2, x[,\"scoreText\"]) & !grepl('Penalty', x[,\"scoreText\"]) & !Cond\n  x$FieldGoal[Cond2] = TRUE  \n  x$ExtraPt = FALSE\n  x$ExtraPt[Cond2] = TRUE\n  \n  x$Kicker[Cond2] = gsub(regParse2, '\\\\1', x[Cond2,\"scoreText\"])\n  x$FGYards[Cond2] = 20\n  x$FGGood[Cond2] = grepl(\"Good|good\", gsub(regParse2, '\\\\2', x[Cond2,\"scoreText\"]))\n  \n  x$FGYards = as.numeric(x$FGYards)\n  x\n}\n",
+    "created" : 1422423416801.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "684803041",
+    "id" : "B3923521",
+    "lastKnownWriteTime" : 1422828365,
+    "path" : "~/Dropbox/cfb/R/ParseFG.R",
+    "project_path" : "R/ParseFG.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 0,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

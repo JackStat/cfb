@@ -1,0 +1,18 @@
+{
+    "contents" : "#' @title Parse passes from NCAA scrape\n#' \n#' \n#' \n#' @export\n\n\n\nParsePass <- function(x){\n  # - Incompletes\n  regParse = paste0(\n    '([0-9]{1,4}-[A-Z]\\\\.[A-Za-z]{1,20}) '\n    ,'incomplete\\\\.(| Intended for )(|[0-9]{1,4}-[A-Z]\\\\.[A-Za-z]{1,20})|\\\\.'\n    )\n  excludes = 'kicks|Penalty|punts|sacked|FUMBLES|penalty|INTERCEPTED'\n  \n  Cond <- grepl(regParse, x$scoreText) & !grepl(excludes, x$scoreText) & grepl('incomplete', x$scoreText)\n  x$Passer[Cond] = gsub(regParse, '\\\\1', x[Cond,'scoreText'])\n  x$Receiver[Cond] = gsub(regParse, '\\\\3', x[Cond,'scoreText'])\n  x$Receiver[x$Receiver=='']=NA\n  x$Complete = FALSE\n  \n  x$PassAtt = FALSE\n  x$PassAtt[Cond] = TRUE\n  \n  # - Completed passes\n  regParse2 = paste0(\n    '([0-9]{1,4}-[A-Z]\\\\.[A-Za-z]{1,20}) '\n    ,'complete to '\n    ,'([0-9]{1,4}-[A-Z]\\\\.[A-Za-z\\\\-]{1,20})\\\\. '\n    ,'([0-9]{1,4}-[A-Z]\\\\.[A-Za-z\\\\-]{1,20}) '\n    ,'(to|runs ob at|pushed ob at) '\n    ,'([A-Z]{2,4}) ([0-9]{1,3}) for '\n    ,'(-|)([0-9]{1,3}) (yards|yard)(\\\\.| \\\\([^*]+\\\\)\\\\.)'    \n    )\n  Cond2 = grepl(regParse2, x[,'scoreText']) & grepl('complete', x$scoreText)  & !grepl(excludes, x$scoreText)\n  x$Passer[Cond2] = gsub(regParse2, '\\\\1', x[Cond2,'scoreText'])\n  x$Receiver[Cond2] = gsub(regParse2, '\\\\2', x[Cond2,'scoreText'])\n  x$PassYards[Cond2] = gsub(regParse2, '\\\\7\\\\8', x[Cond2,'scoreText'])\n  x$Complete[Cond2] = TRUE\n  \n  x$PassAtt[Cond2] = TRUE\n  \n  \n  # - Touchdown\n  regParse3 = paste0(\n    '([0-9]{1,4}-[A-Z]\\\\.[A-Za-z]{1,20}) '\n    ,'complete to '\n    ,'([0-9]{1,4}-[A-Z]\\\\.[A-Za-z\\\\-]{1,20})\\\\. '\n    ,'([0-9]{1,4}-[A-Z]\\\\.[A-Za-z\\\\-]{1,20}) '\n    ,'(runs) (-|)([0-9]{1,3}) (yards|yard) for a '\n    ,'(touchdown)\\\\.'    \n    )\n  Cond3 = grepl(regParse3, x[,'scoreText']) & grepl('complete', x$scoreText) & !Cond & !Cond2  & !grepl(excludes, x$scoreText)\n  x$Passer[Cond3] = gsub(regParse3, '\\\\1', x[Cond3,'scoreText'])\n  x$Receiver[Cond3] = gsub(regParse3, '\\\\2', x[Cond3,'scoreText'])\n  x$PassYards[Cond3] = gsub(regParse3, '\\\\5\\\\6', x[Cond3,'scoreText'])\n  x$Complete[Cond3] = TRUE\n  \n  x$PassAtt[Cond3] = TRUE\n  \n  # - no gain\n  regParse4 = paste0(\n    '([0-9]{1,4}-[A-Z]\\\\.[A-Za-z]{1,20}) '\n    ,'complete to '\n    ,'([0-9]{1,4}-[A-Z]\\\\.[A-Za-z\\\\-]{1,20})\\\\. '\n    ,'([0-9]{1,4}-[A-Z]\\\\.[A-Za-z\\\\-]{1,20}) to '\n    ,'([A-Z]{2,4}) ([0-9]{1,3}) for no gain\\\\.'    \n    )\n  Cond4 = grepl(regParse4, x[,'scoreText']) & grepl('complete', x$scoreText) & !Cond & !Cond2 & !Cond3  & !grepl(excludes, x$scoreText)\n  x$Passer[Cond4] = gsub(regParse4, '\\\\1', x[Cond4,'scoreText'])\n  x$Receiver[Cond4] = gsub(regParse4, '\\\\2', x[Cond4,'scoreText'])\n  x$PassYards[Cond4] = 0\n  x$Complete[Cond4] = TRUE\n  \n  x$PassAtt[Cond4] = TRUE\n  \n  x$PassYards <- as.numeric(x$PassYards)\n  x  \n}\n",
+    "created" : 1422424955405.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3481097507",
+    "id" : "A86BF6EA",
+    "lastKnownWriteTime" : 1422826574,
+    "path" : "~/Dropbox/cfb/R/ParsePass.R",
+    "project_path" : "R/ParsePass.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 0,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

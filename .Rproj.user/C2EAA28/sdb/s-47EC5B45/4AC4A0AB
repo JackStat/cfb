@@ -1,0 +1,18 @@
+{
+    "contents" : "#' @title Parse Drive Details from NCAA scrape\n#' \n#' @export\n\n\n\nParseDrive <- function(x){\n  # - Drive Details\n  regParse ='(1st|2nd|3rd|4th) and ([0-9]{1,2}) at ([A-Z]{2,4})([0-9]{1,2})'\n  x$Down = as.numeric(gsub('[^0-9]','', gsub(regParse,'\\\\1', x$driveText)))\n  x$YdsToGo = as.numeric(gsub(regParse,'\\\\2', x$driveText))\n  x$FieldPos = gsub(regParse,'\\\\3', x$driveText)\n  x$Yardline = as.numeric(gsub(regParse,'\\\\4', x$driveText))\n\n  x\n}",
+    "created" : 1422424263946.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "713079001",
+    "id" : "4AC4A0AB",
+    "lastKnownWriteTime" : 1422424806,
+    "path" : "~/Dropbox/cfb/R/ParseDrive.R",
+    "project_path" : "R/ParseDrive.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 0,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

@@ -1,0 +1,18 @@
+{
+    "contents" : "#' @title cleans Scores from NCAA scrape\n#' @export\n\ncleanScores <- function(x){\n    cummax(ifelse(x == '', 0, as.numeric(as.character(x))))\n}\n",
+    "created" : 1422227452788.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3364824828",
+    "id" : "733FB198",
+    "lastKnownWriteTime" : 1422423655,
+    "path" : "~/Dropbox/cfb/R/cleanScores.R",
+    "project_path" : "R/cleanScores.R",
+    "properties" : {
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 0,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

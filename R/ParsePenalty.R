@@ -1,0 +1,51 @@
+#' @title Identify No Plays
+#' 
+#' 
+#' @export
+
+ParsePenalty <- function(x){
+  
+  
+  x$Penalty = FALSE
+  x$NoPlay = FALSE
+  x$PenaltyYards = rep(NA, nrow(x))
+  x$PenaltyType = rep(NA, nrow(x))
+  x$PenaltyPlayer = rep(NA, nrow(x))
+  
+  # - Penalty for incompletes
+  regParse = paste0(
+    '([0-9]{1,4}-[A-Z]\\.[A-Za-z]{1,20}) (incomplete)\\. '
+    ,'Penalty on ([A-Z]{2,4}) '
+    ,'([0-9]{1,4}-[A-Z]\\.[A-Za-z]{1,20}), '
+    ,'(Pass interference|Illegal substitution), '
+    ,'([0-9]{1,3}) yards, enforced at ([A-Z]{1,3}) ([0-9]{1,2})\\. No Play\\.'
+  )
+  
+  Cond <- grepl(regParse, x[,'scoreText'])
+  
+  x$Penalty[Cond] = TRUE
+  x$PenaltyYards[Cond] = gsub(regParse, '\\6', x[Cond, 'scoreText'])
+  x$PenaltyType[Cond] = gsub(regParse, '\\5', x[Cond, 'scoreText'])
+  x$NoPlay[Cond] = TRUE
+  x$PenaltyPlayer[Cond] = gsub(regParse, '\\4', x[Cond, 'scoreText'])
+  
+  # - Penalty
+  regParse = paste0(
+    'Penalty on ([A-Z]{2,4}) '
+    ,'([0-9]{1,4}-[A-Z]\\.[A-Za-z]{1,20}), '
+    ,'(Pass interference|Illegal substitution|False start|Personal Foul|Delay of game|Ineligible player downfield during passing down|Unsportsmanlike conduct), '
+    ,'([0-9]{1,3}) yards, enforced at ([A-Z]{1,3}) ([0-9]{1,2})\\. No Play\\.'
+  )
+  
+  Cond2 <- grepl(regParse, x[,'scoreText']) & !Cond
+  
+  x$Penalty[Cond2] = TRUE
+  x$PenaltyYards[Cond2] = gsub(regParse, '\\4', x[Cond2, 'scoreText'])
+  x$PenaltyType[Cond2] = gsub(regParse, '\\3', x[Cond2, 'scoreText'])
+  x$NoPlay[Cond2] = TRUE
+  x$PenaltyPlayer[Cond2] = gsub(regParse, '\\2', x[Cond2, 'scoreText'])
+  
+  x$PenaltyYards <- as.numeric(x$PenaltyYards)
+  x
+  
+}

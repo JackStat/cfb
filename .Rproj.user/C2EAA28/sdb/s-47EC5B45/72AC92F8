@@ -1,0 +1,18 @@
+{
+    "contents" : "#' @title Find and Parse Kicks\n#' \n#' \n#' @export\n\n\nParseKick <- function(x){\n    \n  # - Touchbacks\n  regParse = \n    paste0(\n      '([0-9]{1,4}-[A-Z]\\\\.[A-Za-z]{1,20}) '\n      ,'kicks ([0-9]{1,3}) '\n      ,'yards from '\n      ,'([A-Z]{2,4}) ([0-9]{1,3}) to '\n      ,'([A-Z]{2,4}) (End Zone|[0-9]{1,3})\\\\. '\n      ,'touchback\\\\.'\n    )\n  Cond <- grepl(regParse, x[,\"scoreText\"]) & !grepl('Penalty', x[,\"scoreText\"])\n  \n  x$Kick = FALSE\n  x$KickReturn = FALSE\n  \n  x$Kick[Cond] = TRUE\n  x$Kicker[Cond] = gsub(regParse, '\\\\1', x[Cond,\"scoreText\"])\n  x$KickYards[Cond] = gsub(regParse, '\\\\2', x[Cond,\"scoreText\"])\n  \n  \n  # - Returned\n  regParse2 = \n    paste0(\n      '([0-9]{1,4}-[A-Z]\\\\.[A-Za-z]{1,20}) '\n      ,'kicks ([0-9]{1,3}) '\n      ,'yards from '\n      ,'([A-Z]{2,4} [0-9]{1,3})\\\\. '\n      ,'([0-9]{1,4}-[A-Z]\\\\.[A-Za-z]{1,20}) '\n      ,'(runs ob at|runs to|scrambles to|to|pushed ob|pushed ob at) '\n      ,'([A-Z]{2,4} [0-9]{1,3}) for '      \n      ,'(-|)([0-9]{1,3}) (yards|yard)'\n      ,'(\\\\.| \\\\([^*]+\\\\)\\\\.)'\n    )\n  \n  # solving the no gain situation...\n  x[,\"scoreText\"] <- gsub('no gain', '0 yards', x[,\"scoreText\"])\n  \n  Cond2 <- grepl(regParse2, x[,\"scoreText\"]) & !grepl('Penalty', x[,\"scoreText\"]) & !Cond\n  \n  x$Kick[Cond2] = TRUE\n  x$KickReturn[Cond2] = TRUE\n  x$Kicker[Cond2] = gsub(regParse2, '\\\\1', x[Cond2,\"scoreText\"])\n  x$KickYards[Cond2] = gsub(regParse2, '\\\\2', x[Cond2,\"scoreText\"])\n  x$KickReturnYards[Cond2] = gsub(regParse2, '\\\\7\\\\8', x[Cond2,\"scoreText\"])\n  \n  # - Downed\n  regParse3 = \n    paste0(\n      '([0-9]{1,4}-[A-Z]\\\\.[A-Za-z]{1,20}) '\n      ,'kicks ([0-9]{1,3}) '\n      ,'yards from '\n      ,'([A-Z]{2,4}) ([0-9]{1,3}) to the '\n      ,'([A-Z]{2,4}) ([0-9]{1,3}), '\n      ,'downed by '\n      ,'([0-9]{1,4}-[A-Z]\\\\.[A-Za-z]{1,20})\\\\.'\n    )\n  \n  Cond3 <- grepl(regParse3, x[,\"scoreText\"]) & !grepl('Penalty', x[,\"scoreText\"]) & !Cond & !Cond2\n  \n  x$Kick[Cond3] = TRUE\n  x$KickReturn[Cond3] = FALSE\n  x$Kicker[Cond3] = gsub(regParse3, '\\\\1', x[Cond3,\"scoreText\"])\n  x$KickYards[Cond3] = gsub(regParse3, '\\\\2', x[Cond3,\"scoreText\"])\n  \n  \n  # - out-of-bounds\n  regParse4 = \n    paste0(\n      '([0-9]{1,4}-[A-Z]\\\\.[A-Za-z]{1,20}) '\n      ,'kicks ([0-9]{1,3}) '\n      ,'yards from '\n      ,'([A-Z]{2,4}) ([0-9]{1,3}), out of bounds at the '\n      ,'([A-Z]{2,4}) ([0-9]{1,3})\\\\.'\n    )\n  \n  Cond4 <- \n    grepl(regParse4, x[,\"scoreText\"]) & \n      !grepl('Penalty', x[,\"scoreText\"]) &\n      !Cond & !Cond2 & !Cond3\n  \n  x$Kick[Cond4] = TRUE\n  x$KickReturn[Cond4] = FALSE\n  x$Kicker[Cond4] = gsub(regParse4, '\\\\1', x[Cond4,\"scoreText\"])\n  x$KickYards[Cond4] = gsub(regParse4, '\\\\2', x[Cond4,\"scoreText\"])\n  \n  x$KickYards = as.numeric(x$KickYards)\n  \n  # - Handling games with no kick returns\n  if(is.null(x$KickReturnYards)) {\n    x$KickReturnYards = rep(NA, nrow(x))\n  } else {\n    x$KickReturnYards = as.numeric(x$KickReturnYards)\n  }\n\n  x\n}\n",
+    "created" : 1422828411337.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3561596898",
+    "id" : "72AC92F8",
+    "lastKnownWriteTime" : 1427765080,
+    "path" : "~/Dropbox/cfb/R/ParseKick.R",
+    "project_path" : "R/ParseKick.R",
+    "properties" : {
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 0,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
