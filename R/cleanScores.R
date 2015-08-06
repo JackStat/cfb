@@ -2,5 +2,8 @@
 #' @export
 
 cleanScores <- function(x){
-    cummax(ifelse(x == '', 0, as.numeric(as.character(x))))
+  
+  Scores <- suppressWarnings(as.numeric(as.character(x)))
+  cummax(ifelse(is.na(Scores), 0, Scores))
+  
 }
