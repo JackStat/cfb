@@ -81,11 +81,13 @@ scrapeSagarin <- function(){
     ,"EloRank"
     )
   
-  list(
-    request_ts = Sys.time()
-    ,timePeriodRated = timePeriodRated
-    ,Rankings = Numerics(Sag)  
-  )
+#   list(
+#     request_ts = Sys.time()
+#     ,timePeriodRated = timePeriodRated
+#     ,Rankings
+#   )
+#   
+  Numerics(Sag)  
   
 }
 
