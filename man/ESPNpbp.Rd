@@ -4,7 +4,7 @@
 \alias{ESPNpbp}
 \title{Scrape ESPN pbp tables.}
 \usage{
-ESPNpbp(pbpLink)
+ESPNpbp(gameId)
 }
 \description{
 Scrape ESPN pbp tables.

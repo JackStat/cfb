@@ -9,7 +9,7 @@ ParseKick <- function(x){
   # - Touchbacks
   regParse = 
     paste0(
-      '([0-9]{1,4}-[A-Z]\\.[A-Za-z]{1,20}) '
+      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
       ,'kicks ([0-9]{1,3}) '
       ,'yards from '
       ,'([A-Z]{2,4}) ([0-9]{1,3}) to '
@@ -29,11 +29,11 @@ ParseKick <- function(x){
   # - Returned
   regParse2 = 
     paste0(
-      '([0-9]{1,4}-[A-Z]\\.[A-Za-z]{1,20}) '
+      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
       ,'kicks ([0-9]{1,3}) '
       ,'yards from '
       ,'([A-Z]{2,4} [0-9]{1,3})\\. '
-      ,'([0-9]{1,4}-[A-Z]\\.[A-Za-z]{1,20}) '
+      ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
       ,'(runs ob at|runs to|scrambles to|to|pushed ob|pushed ob at) '
       ,'([A-Z]{2,4} [0-9]{1,3}) for '      
       ,'(-|)([0-9]{1,3}) (yards|yard)'
@@ -54,13 +54,13 @@ ParseKick <- function(x){
   # - Downed
   regParse3 = 
     paste0(
-      '([0-9]{1,4}-[A-Z]\\.[A-Za-z]{1,20}) '
+      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
       ,'kicks ([0-9]{1,3}) '
       ,'yards from '
       ,'([A-Z]{2,4}) ([0-9]{1,3}) to the '
       ,'([A-Z]{2,4}) ([0-9]{1,3}), '
       ,'downed by '
-      ,'([0-9]{1,4}-[A-Z]\\.[A-Za-z]{1,20})\\.'
+      ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20})\\."
     )
   
   Cond3 <- grepl(regParse3, x[,"scoreText"]) & !grepl('Penalty', x[,"scoreText"]) & !Cond & !Cond2
@@ -74,7 +74,7 @@ ParseKick <- function(x){
   # - out-of-bounds
   regParse4 = 
     paste0(
-      '([0-9]{1,4}-[A-Z]\\.[A-Za-z]{1,20}) '
+      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
       ,'kicks ([0-9]{1,3}) '
       ,'yards from '
       ,'([A-Z]{2,4}) ([0-9]{1,3}), out of bounds at the '

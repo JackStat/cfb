@@ -7,17 +7,36 @@
 
 
 ParsePass <- function(x){
+  
+  textMod <- as.character(x$scoreText)
+  x$Receiver = rep(NA, nrow(x))
+  
+  # remove declined penalties
+  regParsePenalty <-
+    paste0(
+    '(.*) '
+    ,'(Penalty on |Team penalty on )([A-Z]{2,4})\\, '
+    ,'(.*)\\, declined\\.'
+    )
+  
+  DeclinedCond <- grepl(regParsePenalty, textMod)
+  
+  textMod[DeclinedCond] = 
+    gsub(regParsePenalty, '\\1', textMod[DeclinedCond])
+  
+  
+  
   # - Incompletes
   regParse = paste0(
-    '([0-9]{1,4}-[A-Z]\\.[A-Za-z]{1,20}) '
-    ,'incomplete\\.(| Intended for )(|[0-9]{1,4}-[A-Z]\\.[A-Za-z]{1,20})|\\.'
+    '([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) '
+    ,'incomplete\\.(| Intended for )(|[0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20})|\\.'
     )
   excludes = 'kicks|Penalty|punts|sacked|FUMBLES|penalty|INTERCEPTED'
   
-  Cond <- grepl(regParse, x$scoreText) & !grepl(excludes, x$scoreText) & grepl('incomplete', x$scoreText)
-  x$Passer[Cond] = gsub(regParse, '\\1', x[Cond,'scoreText'])
-  x$Receiver[Cond] = gsub(regParse, '\\3', x[Cond,'scoreText'])
-  x$Receiver[x$Receiver=='']=NA
+  Cond <- grepl(regParse, textMod) & !grepl(excludes, textMod) & grepl('incomplete', textMod)
+  x$Passer[Cond] = gsub(regParse, '\\1', textMod[Cond])
+  x$Receiver[Cond] = gsub(regParse, '\\3', textMod[Cond])
+  x$Receiver = ifelse(x$Receiver == '', NA, x$Receiver)
   x$Complete = FALSE
   
   x$PassAtt = FALSE
@@ -25,18 +44,18 @@ ParsePass <- function(x){
   
   # - Completed passes
   regParse2 = paste0(
-    '([0-9]{1,4}-[A-Z]\\.[A-Za-z]{1,20}) '
+    "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
     ,'complete to '
-    ,'([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20})\\. '
-    ,'([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) '
+    ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20})\\. "
+    ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
     ,'(to|runs ob at|pushed ob at) '
     ,'([A-Z]{2,4}) ([0-9]{1,3}) for '
     ,'(-|)([0-9]{1,3}) (yards|yard)(\\.| \\([^*]+\\)\\.)'    
     )
-  Cond2 = grepl(regParse2, x[,'scoreText']) & grepl('complete', x$scoreText)  & !grepl(excludes, x$scoreText)
-  x$Passer[Cond2] = gsub(regParse2, '\\1', x[Cond2,'scoreText'])
-  x$Receiver[Cond2] = gsub(regParse2, '\\2', x[Cond2,'scoreText'])
-  x$PassYards[Cond2] = gsub(regParse2, '\\7\\8', x[Cond2,'scoreText'])
+  Cond2 = grepl(regParse2, textMod) & grepl('complete', textMod)  & !grepl(excludes, textMod)
+  x$Passer[Cond2] = gsub(regParse2, '\\1', textMod[Cond2])
+  x$Receiver[Cond2] = gsub(regParse2, '\\2', textMod[Cond2])
+  x$PassYards[Cond2] = gsub(regParse2, '\\7\\8', textMod[Cond2])
   x$Complete[Cond2] = TRUE
   
   x$PassAtt[Cond2] = TRUE
@@ -44,32 +63,32 @@ ParsePass <- function(x){
   
   # - Touchdown
   regParse3 = paste0(
-    '([0-9]{1,4}-[A-Z]\\.[A-Za-z]{1,20}) '
+    "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
     ,'complete to '
-    ,'([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20})\\. '
-    ,'([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) '
+    ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20})\\. "
+    ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
     ,'(runs) (-|)([0-9]{1,3}) (yards|yard) for a '
     ,'(touchdown)\\.'    
     )
-  Cond3 = grepl(regParse3, x[,'scoreText']) & grepl('complete', x$scoreText) & !Cond & !Cond2  & !grepl(excludes, x$scoreText)
-  x$Passer[Cond3] = gsub(regParse3, '\\1', x[Cond3,'scoreText'])
-  x$Receiver[Cond3] = gsub(regParse3, '\\2', x[Cond3,'scoreText'])
-  x$PassYards[Cond3] = gsub(regParse3, '\\5\\6', x[Cond3,'scoreText'])
+  Cond3 = grepl(regParse3, textMod) & grepl('complete', textMod) & !Cond & !Cond2  & !grepl(excludes, textMod)
+  x$Passer[Cond3] = gsub(regParse3, '\\1', textMod[Cond3])
+  x$Receiver[Cond3] = gsub(regParse3, '\\2', textMod[Cond3])
+  x$PassYards[Cond3] = gsub(regParse3, '\\5\\6', textMod[Cond3])
   x$Complete[Cond3] = TRUE
   
   x$PassAtt[Cond3] = TRUE
   
   # - no gain
   regParse4 = paste0(
-    '([0-9]{1,4}-[A-Z]\\.[A-Za-z]{1,20}) '
+    "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
     ,'complete to '
-    ,'([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20})\\. '
-    ,'([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) to '
+    ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20})\\. "
+    ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) to "
     ,'([A-Z]{2,4}) ([0-9]{1,3}) for no gain\\.'    
     )
-  Cond4 = grepl(regParse4, x[,'scoreText']) & grepl('complete', x$scoreText) & !Cond & !Cond2 & !Cond3  & !grepl(excludes, x$scoreText)
-  x$Passer[Cond4] = gsub(regParse4, '\\1', x[Cond4,'scoreText'])
-  x$Receiver[Cond4] = gsub(regParse4, '\\2', x[Cond4,'scoreText'])
+  Cond4 = grepl(regParse4, textMod) & grepl('complete', textMod) & !Cond & !Cond2 & !Cond3  & !grepl(excludes, textMod)
+  x$Passer[Cond4] = gsub(regParse4, '\\1', textMod[Cond4])
+  x$Receiver[Cond4] = gsub(regParse4, '\\2', textMod[Cond4])
   x$PassYards[Cond4] = 0
   x$Complete[Cond4] = TRUE
   

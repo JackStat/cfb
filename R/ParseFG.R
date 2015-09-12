@@ -6,7 +6,7 @@
 
 ParseFG <- function(x){
   # - Field Goals
-  regParse = '([0-9]{1,4}-[A-Z]\\.[A-Za-z]{1,20}) ([0-9]{1,3}) yards Field Goal is (Good|No Good)\\.'
+  regParse = "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) ([0-9]{1,3}) yards Field Goal is (Good|No Good)\\."
   Cond <- grepl(regParse, x[,"scoreText"]) & !grepl('Penalty', x[,"scoreText"])
   x$FieldGoal = FALSE
   x$FieldGoal[Cond] = TRUE
@@ -16,7 +16,7 @@ ParseFG <- function(x){
   x$FGGood[Cond] = gsub(regParse, '\\3', x[Cond,"scoreText"]) == "Good"
 
   # - Extra Points
-  regParse2 = '([0-9]{1,4}-[A-Z]\\.[A-Za-z]{1,20}) extra point is (Good|No Good|good|no good)\\.'
+  regParse2 = "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) extra point is (Good|No Good|good|no good)\\."
   Cond2 <- grepl(regParse2, x[,"scoreText"]) & !grepl('Penalty', x[,"scoreText"]) & !Cond
   x$FieldGoal[Cond2] = TRUE  
   x$ExtraPt = FALSE

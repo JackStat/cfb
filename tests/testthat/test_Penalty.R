@@ -10,6 +10,26 @@ TestFrame <- data.frame(
     ,'Penalty on TEP 1-J.Showers, Delay of game, 5 yards, enforced at TEP 37. No Play.'
     ,'Penalty on UTH 53-J.Whittingham, Unsportsmanlike conduct, 15 yards, enforced at UTH 35. No Play.'
     # ,'1-J.Showers incomplete. Intended for 14-I.Hamilton. Penalty on TEP 76-W.Hernandez, Ineligible player downfield during passing down, declined.'
+    ,'7-T.Wilson incomplete. Intended for 87-S.Fakailoatonga. Penalty on MICH 5-J.Peppers, Pass interference, 15 yards, enforced at UTH 49. No Play.'
+    ,'7-T.Wilson incomplete. Intended for 87-S.Fakailoatonga. Team penalty on UTH, Illegal formation, 5 yards, enforced at MICH 27. No Play.'
+    ,"Penalty on MICH 61-G.Glasgow, False start, 5 yards, enforced at MICH 25. No Play."
+    ,"15-J.Rudock scrambles to UTH 41 for 3 yards (7-A.Godfrey). Penalty on UTH 49-H.Dimick, Offside, 5 yards, enforced at UTH 44. No Play."
+    ,"15-J.Rudock incomplete. Intended for 9-G.Perry. Penalty on UTH 50-P.Taumoepenu, Offside, 5 yards, enforced at MICH 32. No Play."
+    ,"32-T.Isaac to MICH 41 for 5 yards (13-G.Paul). Penalty on UTH 13-G.Paul, Unsportsmanlike conduct, 15 yards, enforced at MICH 41."
+    ,"7-T.Wilson to MICH 46 for 8 yards (22-J.Wilson). Penalty on UTH 87-S.Fakailoatonga, Holding, 10 yards, enforced at MICH 46."
+    ,"15-J.Rudock incomplete. Intended for 9-G.Perry. Penalty on MICH 71-B.Braden, Ineligible player downfield during passing down, declined."
+    ,"2-M.Bercovici incomplete. Team penalty on ASU, Intentional grounding, 7 yards, enforced at ASU 13."
+    ,"8-D.Kaser punts 42 yards from ASU 42 Downed at the ASU End Zone. Penalty on ASU 37-C.Gerhart, Roughing the kicker, 15 yards, enforced at ASU 42. No Play."
+    ,'38-D.Kaser punts 51 yards from TXAM 16. 1-D.Hayes to ASU 37 for 4 yards. Penalty on TXAM 35-R.Garner, Running into kicker, declined.'
+    ,'28-A.Ware to ARKS 21 for 2 yards. Penalty on ARKS 57-J.Swalley, Facemask, Incidental, 10 yards, enforced at ARKS 21.'
+    ,'15-L.Ferguson punts 41 yards from ARKS 39. 29-C.Tober to USC 20 for 0 yards. Penalty on ARKS 16-T.Trosin, Fair catch interference, 15 yards, enforced at USC 20.'
+    ,'2-J.Stave incomplete. Intended for 86-A.Erickson, INTERCEPTED by 4-E.Jackson at BAMA 34. 4-E.Jackson to WIS 25 for 41 yards. Penalty on BAMA 21-M.Smith, Illegal block in the back, 10 yards, enforced at WIS 25.'
+    ,'11-M.Birdsong scrambles to MSH 40 for 6 yards. Team penalty on PUR, Unnecessary roughness, 15 yards, enforced at MSH 40.'
+    ,'11-M.Birdsong incomplete. Intended for 21-E.Byrd. Penalty on PUR 4-J.Bentley, Roughing the passer, 15 yards, enforced at MSH 33. No Play.'
+    ,'Team penalty on NEB, Illegal use of hands, 15 yards, enforced at BYU 35. No Play.'
+    ,"42-M.Williams to VT 28 for 0 yards. Penalty on VT 5-J.Stanford, Clipping, 11 yards, enforced at VT 28. No Play."
+    ,"11-M.Johnson incomplete. Intended for 19-T.Redding. Penalty on BGN 17-R.Burbrink, Chop block, 15 yards, enforced at TEN 49. No Play." 
+    ,"98-T.Tate kicks 65 yards from BGN 35. 7-C.Sutton to BGN 33 for 67 yards. Penalty on BGN 98-T.Tate, Facemasking, 15 yards, enforced at BGN 33."
     )
   )
 
@@ -20,7 +40,8 @@ test_that("Penalties are correctly parsing", {
   
   expect_true(all(Penalties$Penalty))
   expect_equal(Penalties$PenaltyYards,
-                    c(15, 5, 5, 15, 5,15))
+                    c(15, 5, 5, 15, 5, 15, 15, 5, 5, 5, 5, 15, 10, 0, 7, 15, 0, 10, 15, 10, 15, 15, 15, 11, 15, 15)
+               )
   expect_true(all(Penalties$PenaltyPlayer == 
                     c("6-D.Payne"
                       ,"32-J.Hill"
@@ -28,6 +49,26 @@ test_that("Penalties are correctly parsing", {
                       ,"90-M.Chavis"
                       ,"1-J.Showers"
                       ,"53-J.Whittingham"
+                      ,"5-J.Peppers"
+                      ,""
+                      ,"61-G.Glasgow"
+                      ,"49-H.Dimick"
+                      ,"50-P.Taumoepenu"
+                      ,"13-G.Paul"
+                      ,"87-S.Fakailoatonga"
+                      ,"71-B.Braden"
+                      ,""
+                      ,"37-C.Gerhart"
+                      ,"35-R.Garner"
+                      ,"57-J.Swalley"
+                      ,"16-T.Trosin"
+                      ,"21-M.Smith"
+                      ,""
+                      ,"4-J.Bentley"
+                      ,""
+                      ,"5-J.Stanford"
+                      ,"17-R.Burbrink"
+                      ,"98-T.Tate"
                       )
                   )
   )

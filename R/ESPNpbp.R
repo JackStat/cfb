@@ -1,77 +1,60 @@
 #' @title Scrape ESPN pbp tables.
 #' 
 #' 
-#' @import XML RCurl dplyr
+#' @import XML RCurl dplyr stringr
 #' 
 #' @export
-# library(XML)
-# library(doMC)
-# library(data.table)
-# library(tidyr)
-# library(RCurl)
-# library(dplyr)
-# library(jsonlite)
 
 
-ESPNpbp <- function(pbpLink) {
-  setTxtProgressBar(pb, t)
+ESPNpbp <- function(gameId) {
   
-  pbpPage<-htmlParse(paste0("http://scores.espn.go.com/",pbpLink , "&period=0"))
+  theurl <- paste0("http://scores.espn.go.com/college-football/playbyplay?gameId=",gameId , "&period=0")
   
-  gtl<-getNodeSet(pbpPage, "//div[@class='game-time-location']/p")
+  pbpPage<-htmlParse(theurl)
   
-  timeLoc <- sapply(gtl, xmlValue)
-  
-  theurl = paste0("http://scores.espn.go.com/", pbpLink, "&period=0")
-
   tree <- htmlTreeParse(theurl, isURL=TRUE, useInternalNodes=TRUE)
   
-  pbpDirty <- readHTMLTable(theurl)[[2]]
-    
-  PossesionString <- '([a-zA-Z]{1,50}) at ([0-9]{1,2}\\:[0-9]{2,})'
-  PosessionsT <- grepl(PossesionString, pbpDirty$V1)
-  Team <- gsub(PossesionString, '\\1', pbpDirty[PosessionsT,'V1'])
-  time <- gsub(PossesionString, '\\2', pbpDirty[PosessionsT,'V1'])
-  timeW <- cumsum(PosessionsT)
-  timeW[timeW == 0] = 1
+  pbp <- getNodeSet(pbpPage, '//*[(@id = "gamepackage-drives-wrap")]')
   
-  QuartersT <- grepl('Quarter Play', pbpDirty$V1) & !duplicated(pbpDirty$V1)
-  QuartersW <- cumsum(QuartersT)
-  QuartersW[QuartersW == 0] = 1
-  QuartersText <- c('1st', '2nd', '3rd', '4th')
-  
-  pbp <- data.frame(
-    scoreText = ifelse(grepl('Â', pbpDirty$V1), NA, as.character(pbpDirty$V1))
-    ,driveText = ifelse(grepl('Â', pbpDirty$V2), NA, as.character(pbpDirty$V2))
-    ,visitingScore = cleanScores(pbpDirty$V3)
-    ,homeScore = cleanScores(pbpDirty$V4)
-    ,GameTime = time[timeW]
-    ,TeamID = Team[timeW]
-    ,Quarter = QuartersText[QuartersW]
-  ) %>% 
-    filter(
-      !grepl('Quarter Play|DRIVE TOTALS', scoreText) & 
-        !PosessionsT &
-        ! grepl('wins the toss|End of|Timeout', driveText))
+  pbpSpacy <- str_split(sapply(pbp, xmlValue),'\t{1,1000}|\n{1,1000}')[[1]]
   
   
-  Home = getNodeSet(pbpPage, '//*[contains(@class, "home")]//a')
-  Away = getNodeSet(pbpPage, '//*[contains(@class, "away")]//a')
+  pbpDirty <- pbpSpacy[pbpSpacy != ""]
   
-  home = sapply(Home, xmlValue)
-  away = sapply(Away, xmlValue)
   
-  gameId = gsub('(/ncf/playbyplay\\?gameId\\=)([0-9]{1,50})', '\\2', byYear$pbpLink[t])
+  DownX <- '(1st|2nd|3rd|4th) and ([0-9]{1,3}) at ([A-Z]{2,6} |)([0-9]{1,3})'
+  DownG <- (grepl(DownX,pbpDirty))
   
-  list(
+  DW <- cumsum(DownG)
+  DownsW <- ifelse(DW==0, 1, DW)
+  
+  Down <- gsub(DownX,'\\1',pbpDirty[DownG])
+  DownYds <- gsub(DownX,'\\2',pbpDirty[DownG])
+  DownSide <- gsub(DownX,'\\3',pbpDirty[DownG])
+  DownYrdLine <- gsub(DownX,'\\4',pbpDirty[DownG])
+  
+  
+  DriveX <- '(.*?)([0-9]{1,3} )plays, ((-|)[0-9]{1,3} )(yards, |yard, )([0-9]{1,2}:[0-9]{1,2})([A-Z]{2,6})([0-9]{,3})([A-Z]{2,6})([0-9]{,3})'
+  DriveG <- grepl(DriveX,pbpDirty)
+  DriveW <- which(DriveG)
+
+  
+  QuarterX <- 'End of (1st|2nd|3rd|4th) Quarter'
+  QuarterG <- grepl(QuarterX,pbpDirty)
+  QsW <- cumsum(grepl(QuarterX,pbpDirty))+1
+  QuarterW <- ifelse(QsW==5, 4, QsW)
+  
+  
+  data.frame(
     gameId = gameId
-    , gameTime = makeTime(timeLoc[1])
-    , gameLocation = timeLoc[2]
-    , url = theurl
-    , teams = c(home[[1]], away[[1]])
-    , home = home
-    , away = away
-    , pbp = pbp)
+    ,pbpText = pbpDirty
+    ,Quarter = QuarterW
+    ,Down = Down[DownsW]
+    ,DownYds = DownYds[DownsW]
+    ,DownSide = DownSide[DownsW]
+    ,DownYrdLine = DownYrdLine[DownsW]
+  ) %>% 
+    .[!DownG & !DriveG & !QuarterG,] 
   
 }
 

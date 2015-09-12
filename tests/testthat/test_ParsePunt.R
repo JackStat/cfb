@@ -12,6 +12,8 @@ TestFrame <- data.frame(
     ,'43-L.McPherson punts 39 yards from LT 30 Downed at the NTX 31.'
     ,'14-A.Melchiori punts 33 yards from KNT 49 Downed at the TOL 18.'
     ,'43-L.McPherson punts 45 yards from LT 29 to the NTX 26, downed by 28-K.Dixon.'
+    ,'26-M.Haack punts 39 yards from ASU 40. 3-C.Kirk runs 79 yards for a touchdown.'
+    ,"27-A.Hughes punts 38 yards from VT 14 to the OSU 48, downed by 59-E.D'Antuono."
     )
   )
 
@@ -22,7 +24,7 @@ test_that("Punts are correctly parsing", {
   
   expect_true(all(Punt$Punt))
   expect_equal(Punt$PuntYards,
-                    c(31,39,40,31,44,45,59,39,33,45))
+                    c(31,39,40,31,44,45,59,39,33,45,39,38))
   expect_equal(Punt$Kicker,
                     c("49-H.Hunt"
                       ,"33-T.Hackett"
@@ -34,6 +36,8 @@ test_that("Punts are correctly parsing", {
                       ,"43-L.McPherson"
                       ,"14-A.Melchiori"
                       ,"43-L.McPherson"
+                      ,"26-M.Haack"
+                      ,"27-A.Hughes"
                       ))
   expect_equal(Punt$PuntReturn,
                     c(FALSE
@@ -43,9 +47,11 @@ test_that("Punts are correctly parsing", {
                       ,FALSE
                       ,TRUE
                       ,TRUE
+                      ,FALSE
+                      ,FALSE
+                      ,FALSE
                       ,TRUE
-                      ,TRUE
-                      ,TRUE
+                      ,FALSE
                       ))
   
   expect_equal(Punt$PuntReturnYards,
@@ -58,6 +64,8 @@ test_that("Punts are correctly parsing", {
                     ,0
                     ,0
                     ,0
+                    ,0
+                    ,79
                     ,0
                     ))
   
