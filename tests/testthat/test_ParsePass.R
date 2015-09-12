@@ -14,7 +14,7 @@ TestFrame <- data.frame(
     ,'10-K.Allen complete to 9-R.Seals-Jones. 9-R.Seals-Jones to TXAM 36 for 4 yards.'
     ,'1-K.Murray incomplete. Intended for 9-R.Seals-Jones.'
     ,'12-C.Jones complete to 4-C.Samuel. 4-C.Samuel runs 24 yards for a touchdown. Team penalty on VT, Pass interference, declined.'
-    # ,'16-C.Keeton complete to 81-Z.Van Leeuwen. 81-Z.Van Leeuwen to UTS 48 for 2 yards (16-C.Butler-Byrd).'
+    ,'16-C.Keeton complete to 81-Z.Van Leeuwen. 81-Z.Van Leeuwen to UTS 48 for 2 yards (16-C.Butler-Byrd).'
     )
   )
 
@@ -25,7 +25,7 @@ test_that("Passing Attempts are correctly parsing", {
   
   expect_true(all(Passes$PassAtt))
   expect_equal(Passes$PassYards,
-                    c(NA, NA, 6, 1, 3, 0, 8, 5, -1, 4, NA, 24))
+                    c(NA, NA, 6, 1, 3, 0, 8, 5, -1, 4, NA, 24, 2))
   expect_equal(Passes$Passer,
                     c("16-N.Strock"
                       ,"5-M.Julian"
@@ -39,6 +39,7 @@ test_that("Passing Attempts are correctly parsing", {
                       ,"10-K.Allen"
                       ,"1-K.Murray"
                       ,"12-C.Jones"
+                      ,"16-C.Keeton"
                       ))
   expect_equal(Passes$Receiver,
                   c(NA
@@ -53,6 +54,7 @@ test_that("Passing Attempts are correctly parsing", {
                     ,"9-R.Seals-Jones"
                     ,"9-R.Seals-Jones"
                     ,"4-C.Samuel"
+                    ,"81-Z.Van-Leeuwen"
                     ))  
   
 })
