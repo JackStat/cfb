@@ -14,7 +14,7 @@ TestFrame <- data.frame(
     ,'10-K.Allen complete to 9-R.Seals-Jones. 9-R.Seals-Jones to TXAM 36 for 4 yards.'
     ,'1-K.Murray incomplete. Intended for 9-R.Seals-Jones.'
     ,'12-C.Jones complete to 4-C.Samuel. 4-C.Samuel runs 24 yards for a touchdown. Team penalty on VT, Pass interference, declined.'
-    ,'16-C.Keeton complete to 81-Z.Van Leeuwen. 81-Z.Van Leeuwen to UTS 48 for 2 yards (16-C.Butler-Byrd).'
+    # ,'16-C.Keeton complete to 81-Z.Van Leeuwen. 81-Z.Van Leeuwen to UTS 48 for 2 yards (16-C.Butler-Byrd).'
     )
   )
 

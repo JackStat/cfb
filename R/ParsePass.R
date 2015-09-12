@@ -11,6 +11,8 @@ ParsePass <- function(x){
   textMod <- as.character(x$scoreText)
   x$Receiver = rep(NA, nrow(x))
   
+  
+  
   # remove declined penalties
   regParsePenalty <-
     paste0(
@@ -28,7 +30,7 @@ ParsePass <- function(x){
   
   # - Incompletes
   regParse = paste0(
-    '([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) '
+    PlayerRegex(),' '
     ,'incomplete\\.(| Intended for )(|[0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20})|\\.'
     )
   excludes = 'kicks|Penalty|punts|sacked|FUMBLES|penalty|INTERCEPTED'
