@@ -8,6 +8,26 @@
 
 ParseRush <- function(x){
   
+  textMod <- as.character(x$scoreText)
+  
+  # Players with spaces in last name
+  textMod <- gsub("([0-9]{1,3}-[A-Z]{1,1}\\.[A-Z]{1,1}[a-z]{1,20})(\\ |\\-)([A-Z]{1,1}[a-z]{1,20})",'\\1-\\3', textMod)
+  
+  # remove declined penalties
+  regParsePenalty <-
+    paste0(
+    '(.*) '
+    ,'(Penalty on |Team penalty on )([A-Z]{2,4})\\, '
+    ,'(.*)\\, declined\\.'
+    )
+  
+  DeclinedCond <- grepl(regParsePenalty, textMod)
+  
+  textMod[DeclinedCond] = 
+    gsub(regParsePenalty, '\\1', textMod[DeclinedCond])
+  
+  textMod <- gsub('no gain', '0 yards', textMod)
+  
   x$Kneel = FALSE
   x$RushAtt = FALSE
   
@@ -22,21 +42,26 @@ ParseRush <- function(x){
       ,'(yards|yard)(\\.| \\([^*]+\\)\\.)'
     )
     #Fixing no gain...
-  x[,"scoreText"] <- gsub('no gain', '0 yards', x[,"scoreText"])
+  
   
   excludes = 'complete|kicks|Penalty|punts|FUMBLES|penalty'
-  Cond <- grepl(regParse, x[,'scoreText']) & !grepl(excludes, x[,'scoreText'])
-  x$Rusher[Cond] = gsub(regParse, '\\1', x[Cond,'scoreText'])
+  Cond <- grepl(regParse, textMod) & !grepl(excludes, textMod)
+  x$Rusher[Cond] = gsub(regParse, '\\1', textMod[Cond])
   
   x$RushAtt[Cond] = TRUE
-  x$RushYards[Cond] = gsub(regParse, '\\6\\7', x[Cond,'scoreText'])
+  x$RushYards[Cond] = gsub(regParse, '\\6\\7', textMod[Cond])
   
   # - Run for TD
-  regParse3 = "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) (runs|scrambles, runs) ([0-9]{1,3}) (yard|yards) for a touchdown."
-  Cond3 <- grepl(regParse3, x[,'scoreText']) & !grepl(excludes, x[,'scoreText']) & !Cond
-  x$Rusher[Cond3] = gsub(regParse3, '\\1', x[Cond3,'scoreText'])
+  regParse3 = 
+    paste0(
+      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
+      ,"(runs|scrambles, runs) ([0-9]{1,3}) "
+      ,"(yard|yards) for a touchdown."
+    )
+  Cond3 <- grepl(regParse3, textMod) & !grepl(excludes, textMod) & !Cond
+  x$Rusher[Cond3] = gsub(regParse3, '\\1', textMod[Cond3])
   x$RushAtt[Cond3] = TRUE
-  x$RushYards[Cond3] = gsub(regParse3, '\\3', x[Cond3,'scoreText'])
+  x$RushYards[Cond3] = gsub(regParse3, '\\3', textMod[Cond3])
   
   
   #- Kneels
@@ -47,11 +72,11 @@ ParseRush <- function(x){
     ,'(-|)([0-9]{1,3}) (yards|yard)(\\.| \\([^*]+\\)\\.)' 
   )
   
-  Cond4 <- grepl(regParse4, x[,"scoreText"]) & !Cond & !Cond3
+  Cond4 <- grepl(regParse4, textMod) & !Cond & !Cond3
   x$Kneel[Cond4] = TRUE
   x$RushAtt[Cond4] = TRUE
-  x$Rusher[Cond4] = gsub(regParse4, '\\1', x[Cond4,"scoreText"])
-  x$RushYards[Cond4] = gsub(regParse4, '\\4\\5', x[Cond4,'scoreText'])
+  x$Rusher[Cond4] = gsub(regParse4, '\\1', textMod[Cond4])
+  x$RushYards[Cond4] = gsub(regParse4, '\\4\\5', textMod[Cond4])
   
   
   x$RushYards <- as.numeric(x$RushYards)
