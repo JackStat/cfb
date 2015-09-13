@@ -3,10 +3,10 @@ Type: Package
 Title: Collection of functions for manipulating college football data
 Version: 1.0
 Date: 2015-01-25
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Author: Tyler Hunt
+Maintainer: <tyler@psychoanalytix.com>
+Description: Scrapes NCAA, ESPN, Sagarin, etc. and parses play-by-play data
+License: MIT
 Imports: 
   dplyr
 Suggests: testthat
