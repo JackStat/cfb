@@ -68,6 +68,29 @@ ParseInterception <- function(x){
   
   x$InterceptionYards[Cond2] = gsub(regParse, '\\6', textMod[Cond2])
   
+  
+  # - touchback
+  regParse3 = 
+    paste0(
+      '([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) incomplete. INTERCEPTED by '
+      ,'([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) at '
+      ,'([A-Z]{2,4}) ([0-9]{1,3})\\. '
+      ,'([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}), touchback\\.'
+    )
+  
+  Cond3 <- grepl(regParse3, textMod) & !Cond & !Cond2
+  
+  x$Passer[Cond3] = gsub(regParse3, '\\1', textMod[Cond3])
+  x$Interceptor[Cond3] = gsub(regParse3, '\\2', textMod[Cond3])
+  x$Complete[Cond3] = FALSE
+  
+  x$PassAtt[Cond3] = TRUE
+  x$Interception[Cond3] = TRUE
+  
+  x$InterceptionYards[Cond3] = 0
+  
+  
+  
   x$InterceptionYards = as.numeric(x$InterceptionYards)
   
   x
