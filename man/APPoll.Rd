@@ -4,7 +4,7 @@
 \alias{APPoll}
 \title{Scrape AP Poll}
 \usage{
-APPoll(year, week)
+APPoll(PollID)
 }
 \description{
 Scrape AP Poll
