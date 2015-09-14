@@ -5,6 +5,7 @@
 
 ParseFumble <- function(x){
   
+  x <- cleanPlayers(x)
   
   x$Fumble = FALSE
   x$FumbleYards = rep(NA, nrow(x))

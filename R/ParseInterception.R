@@ -6,6 +6,8 @@
 
 ParseInterception <- function(x){
   
+  x <- cleanPlayers(x)
+  
   x$Interception = FALSE
   x$InterceptionYards = NA
   x$Interceptor = NA

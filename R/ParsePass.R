@@ -8,14 +8,10 @@
 
 ParsePass <- function(x){
   
+  x <- cleanPlayers(x)
+  
   textMod <- as.character(x$scoreText)
   x$Receiver = rep(NA, nrow(x))
-  
-  # Players with spaces in last name
-  textMod <- gsub("([0-9]{0,3}-[A-Z]{1,1}\\.[A-Z]{1,1}[a-z]{1,20})(\\ |\\-)([A-Z]{1,1}[a-z]{1,20})",'\\1-\\3', textMod)
-  
-  # Players with period in name...
-  textMod <- gsub("([0-9]{0,3}-[A-Z]{1,1}\\.[A-Z]{1,1}[a-z]{1,20})(\\ |\\-)([A-Z]{1,1}[a-z]{1,20})(\\.)( to| from)",'\\1-\\3\\5', textMod)
   
   # remove declined penalties
   regParsePenalty <-

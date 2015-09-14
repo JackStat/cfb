@@ -8,10 +8,9 @@
 
 ParseRush <- function(x){
   
-  textMod <- as.character(x$scoreText)
+  x <- cleanPlayers(x)
   
-  # Players with spaces in last name
-  textMod <- gsub("([0-9]{0,3}-[A-Z]{1,1}\\.[A-Z]{1,1}[a-z]{1,20})(\\ |\\-)([A-Z]{1,1}[a-z]{1,20})",'\\1-\\3', textMod)
+  textMod <- as.character(x$scoreText)
   
   # remove declined penalties
   regParsePenalty <-

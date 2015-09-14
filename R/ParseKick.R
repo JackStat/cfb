@@ -5,6 +5,9 @@
 
 
 ParseKick <- function(x){
+  
+  
+  x <- cleanPlayers(x)
     
   # - Touchbacks
   regParse = 

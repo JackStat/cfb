@@ -6,6 +6,8 @@
 
 ParsePunt <- function(x){
   
+  x <- cleanPlayers(x)
+  
   #Fixing no gain...
   x[,"scoreText"] <- gsub('no gain', '0 yards', x[,"scoreText"])
     
@@ -113,12 +115,12 @@ ParsePunt <- function(x){
   # - Downed
   regParse6 = 
     paste0(
-      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
+      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) "
       ,'punts ([0-9]{1,3}) '
       ,'yards from '
       ,'([A-Z]{2,6}) ([0-9]{1,3})'
       ,'( Downed at the | to the )'
-      ,"([A-Z]{2,6}) ([0-9]{1,3})(\\.|\\, downed by [0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}\\.)"
+      ,"([A-Z]{2,6}) ([0-9]{1,3})(\\.|\\, downed by [0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}\\.)"
     )
   Cond6 <- grepl(regParse6, x[,"scoreText"]) & !grepl('Penalty', x[,"scoreText"]) & !Cond & !Cond2 & !Cond3 & !Cond4
     

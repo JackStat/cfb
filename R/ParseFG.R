@@ -5,6 +5,10 @@
 
 
 ParseFG <- function(x){
+  
+  x <- cleanPlayers(x)
+  
+  
   # - Field Goals
   regParse = "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) ([0-9]{1,3}) yards Field Goal is (Good|No Good)\\."
   Cond <- grepl(regParse, x[,"scoreText"]) & !grepl('Penalty', x[,"scoreText"])
