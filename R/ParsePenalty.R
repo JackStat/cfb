@@ -18,7 +18,7 @@ ParsePenalty <- function(x){
   # - Penalty for incompletes
   regParse = paste0(
     '(.*?)'
-    ,'(Penalty on |Team penalty on )([A-Z]{2,4})'
+    ,'(Penalty on |Team penalty on )([A-Z]{2,6})'
     ,'( [0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}|), '
     ,PENALTIES
     ,'([0-9]{1,3}) yards, enforced at ([A-Z]{1,4}) ([0-9]{1,2})\\.( No Play\\.|)'
@@ -35,7 +35,7 @@ ParsePenalty <- function(x){
   
   # - Penalty
   regParse = paste0(
-    'Penalty on ([A-Z]{2,4}) '
+    'Penalty on ([A-Z]{2,6}) '
     ,'([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}), '
     ,PENALTIES
     ,'([0-9]{1,3}) yards, enforced at ([A-Z]{1,4}) ([0-9]{1,2})\\. No Play\\.'
@@ -54,7 +54,7 @@ ParsePenalty <- function(x){
   # - Penalty for declines
   regParse = paste0(
     '(.*?)'
-    ,'(Penalty on |Team penalty on )([A-Z]{2,4})'
+    ,'(Penalty on |Team penalty on )([A-Z]{2,6})'
     ,'( [0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}|), '
     ,PENALTIES
     ,'declined\\.'
