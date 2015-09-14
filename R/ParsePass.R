@@ -12,7 +12,7 @@ ParsePass <- function(x){
   x$Receiver = rep(NA, nrow(x))
   
   # Players with spaces in last name
-  textMod <- gsub("([0-9]{1,3}-[A-Z]{1,1}\\.[A-Z]{1,1}[a-z]{1,20})(\\ |\\-)([A-Z]{1,1}[a-z]{1,20})",'\\1-\\3', textMod)
+  textMod <- gsub("([0-9]{0,3}-[A-Z]{1,1}\\.[A-Z]{1,1}[a-z]{1,20})(\\ |\\-)([A-Z]{1,1}[a-z]{1,20})",'\\1-\\3', textMod)
   
   # remove declined penalties
   regParsePenalty <-
@@ -51,10 +51,10 @@ ParsePass <- function(x){
   
   # - Completed passes
   regParse2 = paste0(
-    "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
+    "([0-9]{0,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
     ,'complete to '
-    ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20})\\. "
-    ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
+    ,"([0-9]{0,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20})\\. "
+    ,"([0-9]{0,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
     ,'(to|runs ob at|pushed ob at) '
     ,'([A-Z]{2,6}) ([0-9]{1,3}) for '
     ,'(-|)([0-9]{1,3}) (yards|yard)(\\.| \\([^*]+\\)\\.)'    
@@ -74,10 +74,10 @@ ParsePass <- function(x){
   
   # - Touchdown
   regParse3 = paste0(
-    "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
+    "([0-9]{0,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
     ,'complete to '
-    ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20})\\. "
-    ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
+    ,"([0-9]{0,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20})\\. "
+    ,"([0-9]{0,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
     ,'(runs) (-|)([0-9]{1,3}) (yards|yard) for a '
     ,'(touchdown)\\.'    
     )
@@ -96,10 +96,10 @@ ParsePass <- function(x){
   
   # - no gain
   regParse4 = paste0(
-    "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
+    "([0-9]{0,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
     ,'complete to '
-    ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20})\\. "
-    ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) to "
+    ,"([0-9]{0,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20})\\. "
+    ,"([0-9]{0,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) to "
     ,'([A-Z]{2,6}) ([0-9]{1,3}) for no gain\\.'    
     )
   Cond4 = 
