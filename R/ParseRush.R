@@ -66,7 +66,7 @@ ParseRush <- function(x){
   
   #- Kneels
   regParse4 = paste0(
-    "([0-9]{0,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) "
+    "([0-9]{0,4}-[A-Z]\\.[A-Za-z\\-]{1,20} |)"
     ,'(kneels at|spikes the ball at) '
     ,'([A-Z]{2,6}) ([0-9]{1,3}) for '
     ,'(-|)([0-9]{1,3}) (yards|yard)(\\.| \\([^*]+\\)\\.)' 
@@ -75,7 +75,7 @@ ParseRush <- function(x){
   Cond4 <- grepl(regParse4, textMod) & !Cond & !Cond3
   x$Kneel[Cond4] = TRUE
   x$RushAtt[Cond4] = TRUE
-  x$Rusher[Cond4] = gsub(regParse4, '\\1', textMod[Cond4])
+  x$Rusher[Cond4] = trim(gsub(regParse4, '\\1', textMod[Cond4]))
   x$RushYards[Cond4] = gsub(regParse4, '\\5\\6', textMod[Cond4])
   
   
