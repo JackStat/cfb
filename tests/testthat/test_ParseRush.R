@@ -33,6 +33,8 @@ TestFrame <- data.frame(
     ,'5-M.Julian kneels at KNT 33 for -2 yards.'
     ,'23-D.Booker to ORS 6 for 53 yards. Team penalty on ORS, Offside, declined.'
     ,"13-J.McNichols to BOISE 26 for 4 yards (4-F.Warner)."
+    ,"15-D.Prescott spikes the ball at LSU 29 for 0 yards." 
+    ,"-F.Anderson to TXST 46 for 1 yard."
     )
   )
 
@@ -43,7 +45,7 @@ test_that("Rushing Attempts are correctly parsing", {
   
   expect_true(all(Rushes$RushAtt))
   expect_equal(Rushes$RushYards,
-                    c(6,-15,6,-15,1,1,1,1,-15,15,0,0,0,0,-15,15,15,5,8,2,2,8,0,-1,-10,1,12,-4,-2, 53,4))
+                    c(6,-15,6,-15,1,1,1,1,-15,15,0,0,0,0,-15,15,15,5,8,2,2,8,0,-1,-10,1,12,-4,-2, 53,4, 0, 1))
   expect_true(all(Rushes$Rusher == 
                     c("15-E.McGuire"
                       ,"8-T.Broadway"
@@ -76,6 +78,8 @@ test_that("Rushing Attempts are correctly parsing", {
                       ,"5-M.Julian"
                       ,"23-D.Booker"
                       ,"13-J.McNichols"
+                      ,"15-D.Prescott"
+                      ,"-F.Anderson"
                       )))  
   
 })

@@ -11,7 +11,7 @@ ParseRush <- function(x){
   textMod <- as.character(x$scoreText)
   
   # Players with spaces in last name
-  textMod <- gsub("([0-9]{1,3}-[A-Z]{1,1}\\.[A-Z]{1,1}[a-z]{1,20})(\\ |\\-)([A-Z]{1,1}[a-z]{1,20})",'\\1-\\3', textMod)
+  textMod <- gsub("([0-9]{0,3}-[A-Z]{1,1}\\.[A-Z]{1,1}[a-z]{1,20})(\\ |\\-)([A-Z]{1,1}[a-z]{1,20})",'\\1-\\3', textMod)
   
   # remove declined penalties
   regParsePenalty <-
@@ -35,7 +35,7 @@ ParseRush <- function(x){
   # - Style 1
   regParse = 
     paste0(
-      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
+      "([0-9]{0,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
       ,'(runs ob at|runs to|scrambles to|to|pushed ob|pushed ob at|scrambles, runs ob at|sacked at|scrambles, pushed ob at) '
       ,'([A-Z]{2,6}) ([0-9]{1,3}) '
       ,'(for) (-|)([0-9]{1,3}) '
@@ -54,7 +54,7 @@ ParseRush <- function(x){
   # - Run for TD
   regParse3 = 
     paste0(
-      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
+      "([0-9]{0,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
       ,"(runs|scrambles, runs) ([0-9]{1,3}) "
       ,"(yard|yards) for a touchdown."
     )
@@ -66,8 +66,8 @@ ParseRush <- function(x){
   
   #- Kneels
   regParse4 = paste0(
-    "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) "
-    ,'kneels at '
+    "([0-9]{0,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) "
+    ,'(kneels at|spikes the ball at) '
     ,'([A-Z]{2,6}) ([0-9]{1,3}) for '
     ,'(-|)([0-9]{1,3}) (yards|yard)(\\.| \\([^*]+\\)\\.)' 
   )
@@ -76,7 +76,7 @@ ParseRush <- function(x){
   x$Kneel[Cond4] = TRUE
   x$RushAtt[Cond4] = TRUE
   x$Rusher[Cond4] = gsub(regParse4, '\\1', textMod[Cond4])
-  x$RushYards[Cond4] = gsub(regParse4, '\\4\\5', textMod[Cond4])
+  x$RushYards[Cond4] = gsub(regParse4, '\\5\\6', textMod[Cond4])
   
   
   x$RushYards <- as.numeric(x$RushYards)
