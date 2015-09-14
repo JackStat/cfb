@@ -18,7 +18,7 @@ ParsePass <- function(x){
   regParsePenalty <-
     paste0(
     '(.*) '
-    ,'(Penalty on |Team penalty on )([A-Z]{2,4})\\, '
+    ,'(Penalty on |Team penalty on )([A-Z]{2,6})\\, '
     ,'(.*)\\, declined\\.'
     )
   
@@ -56,7 +56,7 @@ ParsePass <- function(x){
     ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20})\\. "
     ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
     ,'(to|runs ob at|pushed ob at) '
-    ,'([A-Z]{2,4}) ([0-9]{1,3}) for '
+    ,'([A-Z]{2,6}) ([0-9]{1,3}) for '
     ,'(-|)([0-9]{1,3}) (yards|yard)(\\.| \\([^*]+\\)\\.)'    
     )
   Cond2 = 
@@ -100,7 +100,7 @@ ParsePass <- function(x){
     ,'complete to '
     ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20})\\. "
     ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) to "
-    ,'([A-Z]{2,4}) ([0-9]{1,3}) for no gain\\.'    
+    ,'([A-Z]{2,6}) ([0-9]{1,3}) for no gain\\.'    
     )
   Cond4 = 
     grepl(regParse4, textMod) & 

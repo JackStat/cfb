@@ -7,7 +7,8 @@
 ParseInterception <- function(x){
   
   x$Interception = FALSE
-  x$InterceptionYards = rep(NA, nrow(x))
+  x$InterceptionYards = NA
+  x$Interceptor = NA
   
   textMod <- as.character(x$scoreText)
   
@@ -30,9 +31,9 @@ ParseInterception <- function(x){
     paste0(
       '([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) incomplete. INTERCEPTED by '
       ,'([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) at '
-      ,'([A-Z]{2,4}) ([0-9]{1,3})\\. '
+      ,'([A-Z]{2,6}) ([0-9]{1,3})\\. '
       ,'([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) (to|runs|runs ob at) '
-      ,'([A-Z]{2,4}) ([0-9]{1,3}) for ([0-9]{1,3}) '
+      ,'([A-Z]{2,6}) ([0-9]{1,3}) for ([0-9]{1,3}) '
       ,'(yard|yards)\\.'
     )
   Cond <- grepl(regParse, textMod) & !grepl('touchdown', textMod)
@@ -51,7 +52,7 @@ ParseInterception <- function(x){
     paste0(
       '([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) incomplete. INTERCEPTED by '
       ,'([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) at '
-      ,'([A-Z]{2,4}) ([0-9]{1,3})\\. '
+      ,'([A-Z]{2,6}) ([0-9]{1,3})\\. '
       ,'([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) runs '
       ,'([0-9]{1,3}) '
       ,'(yard|yards) for a touchdown\\.'
@@ -74,7 +75,7 @@ ParseInterception <- function(x){
     paste0(
       '([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) incomplete. INTERCEPTED by '
       ,'([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) at '
-      ,'([A-Z]{2,4}) ([0-9]{1,3})\\. '
+      ,'([A-Z]{2,6}) ([0-9]{1,3})\\. '
       ,'([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}), touchback\\.'
     )
   
