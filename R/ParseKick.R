@@ -65,7 +65,7 @@ ParseKick <- function(x){
       ,'([A-Z]{2,6}) ([0-9]{1,3}) to( the|) '
       ,'([A-Z]{2,6}) ([0-9]{1,3}), '
       ,'(downed|fair catch) by '
-      ,"([0-9]{0,4}-[A-Z]\\.[A-Za-z\\-]{1,20})\\."
+      ,"([0-9]{0,4}-[A-Z]\\.[A-Za-z\\-]{1,20})(.*?|)\\."
     )
   
   Cond3 <- grepl(regParse3, x[,"scoreText"]) & !grepl('Penalty', x[,"scoreText"]) & !Cond & !Cond2
