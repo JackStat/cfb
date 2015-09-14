@@ -21,7 +21,7 @@ ParsePenalty <- function(x){
     ,'(Penalty on |Team penalty on )([A-Z]{2,6})'
     ,'( [0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}|), '
     ,PENALTIES
-    ,'([0-9]{1,3}) yards, enforced at ([A-Z]{1,4}) ([0-9]{1,2})\\.( No Play\\.|)'
+    ,'([0-9]{1,3}) yards, enforced at ([A-Z]{1,6}) ([0-9]{1,2})\\.( No Play\\.|)'
   )
   
   Cond <- grepl(regParse, x[,'scoreText'])

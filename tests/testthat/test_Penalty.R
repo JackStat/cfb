@@ -74,7 +74,7 @@ test_that("Penalties are correctly parsing", {
                       ,"98-T.Tate"
                       ,"11-J.Dobbs"
                       ,""
-                      ,""
+                      ,"66-M.Yakoo"
                       )
                   )
   )
