@@ -6,7 +6,7 @@
 ParsePenalty <- function(x){
   
   
-  PENALTIES <- '(Pass interference|Illegal substitution|False start|Personal Foul|Delay of game|Ineligible player downfield during passing down|Unsportsmanlike conduct|Illegal formation|Offside|Holding|Intentional grounding|Roughing the kicker|Running into kicker|Facemask, Incidental|Fair catch interference|Illegal block in the back|Unnecessary roughness|Roughing the passer|Illegal use of hands|Clipping|Chop block|Facemasking|Illegal Forward Pass|12 players|Illegal motion|12 men in the huddle|Illegal shift), '
+  PENALTIES <- '(Pass interference|Illegal substitution|False start|Personal Foul|Delay of game|Ineligible player downfield during passing down|Unsportsmanlike conduct|Illegal formation|Offside|Holding|Intentional grounding|Roughing the kicker|Running into kicker|Facemask, Incidental|Fair catch interference|Illegal block in the back|Unnecessary roughness|Roughing the passer|Illegal use of hands|Clipping|Chop block|Facemasking|Illegal Forward Pass|12 players|Illegal motion|12 men in the huddle|Illegal shift|Offside on Free Kick), '
   
   x$Penalty = FALSE
   x$NoPlay = FALSE
