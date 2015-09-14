@@ -37,7 +37,9 @@ TestFrame <- data.frame(
     ,"Team penalty on STA, 12 men in the huddle, 5 yards, enforced at STA 12. No Play." 
     ,"7-T.Ervin to SJS 30 for 5 yards. Team penalty on SJS, Illegal shift, 5 yards, enforced at SJS 25. No Play."
     ,"Team penalty on BAY, Offside on Free Kick, 5 yards, enforced at LAM 25. No Play."
-    ,"Penalty on NM 91-N.D'Avanzo, Personal Foul, 15 yards, enforced at NM 40. No Play."  
+    ,"Penalty on NM 91-N.D'Avanzo, Personal Foul, 15 yards, enforced at NM 40. No Play." 
+    ,"16-J.Licata incomplete. Intended for 7-M.McGill. Penalty on BUF 2-J.Johnson, Tripping, 15 yards, enforced at BUF 48. No Play."
+    ,"Penalty on LT 43-L.McPherson, First onside kickoff out of bounds, 5 yards, enforced at LT 48. No Play."
     )
   )
 
@@ -48,7 +50,7 @@ test_that("Penalties are correctly parsing", {
   
   expect_true(all(Penalties$Penalty))
   expect_equal(Penalties$PenaltyYards,
-                    c(15, 5, 5, 15, 5, 15, 15, 5, 5, 5, 5, 15, 10, 0, 7, 15, 0, 10, 15, 10, 15, 15, 15, 11, 15, 15, 5, 5, 5, 5, 5, 5, 5, 15)
+                    c(15, 5, 5, 15, 5, 15, 15, 5, 5, 5, 5, 15, 10, 0, 7, 15, 0, 10, 15, 10, 15, 15, 15, 11, 15, 15, 5, 5, 5, 5, 5, 5, 5, 15, 15, 5)
                )
   expect_true(all(Penalties$PenaltyPlayer == 
                     c("6-D.Payne"
@@ -85,6 +87,8 @@ test_that("Penalties are correctly parsing", {
                       ,""
                       ,""
                       ,"91-N.D-Avanzo"
+                      ,"2-J.Johnson"
+                      ,"43-L.McPherson"
                       )
                   )
   )
