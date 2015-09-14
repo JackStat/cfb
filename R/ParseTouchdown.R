@@ -5,6 +5,7 @@
 
 
 ParseTouchdown <- function(x){
-  grepl('touchdown', x[,'scoreText'])
+  x$Touchdown = grepl('touchdown', x[,'scoreText'])
+  x
 }
 
