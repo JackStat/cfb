@@ -118,6 +118,27 @@ ParsePass <- function(x){
   
   x$PassAtt[Cond4] = TRUE
   
+  # - caught out of bounds
+  regParse5 = paste0(
+    "([0-9]{0,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
+    ,'complete to '
+    ,"([0-9]{0,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20})\\. "
+    ,"([0-9]{0,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}), out of bounds at the "
+    ,'([A-Z]{2,6}) ([0-9]{1,3})\\.'    
+    )
+  Cond5 = 
+    grepl(regParse5, textMod) & 
+    grepl('complete', textMod) & 
+    !Cond & !Cond2 & !Cond3 & !Cond4 
+    !grepl(excludes, textMod)
+  
+  x$Passer[Cond5] = gsub(regParse5, '\\1', textMod[Cond5])
+  x$Receiver[Cond5] = gsub(regParse5, '\\2', textMod[Cond5])
+  x$PassYards[Cond5] = NA
+  x$Complete[Cond5] = TRUE
+  
+  x$PassAtt[Cond5] = TRUE
+  
   x$PassYards <- as.numeric(x$PassYards)
   x  
 }
