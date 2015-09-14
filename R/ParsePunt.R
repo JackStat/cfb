@@ -15,8 +15,8 @@ ParsePunt <- function(x){
       "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
       ,'punts ([0-9]{1,3}) '
       ,'yards from '
-      ,'([A-Z]{2,4}) ([0-9]{1,3}) to '
-      ,'([A-Z]{2,4}) ([0-9]{1,3}), '
+      ,'([A-Z]{2,6}) ([0-9]{1,3}) to '
+      ,'([A-Z]{2,6}) ([0-9]{1,3}), '
       ,'fair catch by '
       ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20})\\."
     )
@@ -41,9 +41,9 @@ ParsePunt <- function(x){
       "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
       ,'punts ([0-9]{1,3}) '
       ,'yards from '
-      ,'([A-Z]{2,4}) ([0-9]{1,3}), '
+      ,'([A-Z]{2,6}) ([0-9]{1,3}), '
       ,'out of bounds at the '
-      ,'([A-Z]{2,4}) ([0-9]{1,3})\\.'
+      ,'([A-Z]{2,6}) ([0-9]{1,3})\\.'
     )
   Cond2 <- grepl(regParse2, x[,"scoreText"]) & !grepl('Penalty', x[,"scoreText"]) & !Cond
     
@@ -58,10 +58,10 @@ ParsePunt <- function(x){
       "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
       ,'punts ([0-9]{1,3}) '
       ,'yards from '
-      ,'([A-Z]{2,4} [0-9]{1,3})\\. '
+      ,'([A-Z]{2,6} [0-9]{1,3})\\. '
       ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
       ,'(runs ob at|runs to|scrambles to|to|pushed ob|pushed ob at) '
-      ,'([A-Z]{2,4} [0-9]{1,3}) for '      
+      ,'([A-Z]{2,6} [0-9]{1,3}) for '      
       ,'(-|)([0-9]{1,3}) (yards|yard)'
       ,'(\\.| \\([^*]+\\)\\.)'
     )
@@ -80,7 +80,7 @@ ParsePunt <- function(x){
       "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
       ,'punts ([0-9]{1,3}) '
       ,'yards from '
-      ,'([A-Z]{2,4} [0-9]{1,3})\\. '
+      ,'([A-Z]{2,6} [0-9]{1,3})\\. '
       ,'([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) runs '
       ,'([0-9]{1,3}) (yard|yards) for a touchdown.'
     )
@@ -100,8 +100,8 @@ ParsePunt <- function(x){
       "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
       ,'punts ([0-9]{1,3}) '
       ,'yards from '
-      ,'([A-Z]{2,4}) ([0-9]{1,3}) to '
-      ,'([A-Z]{2,4}) (End Zone|[0-9]{1,3})\\. '
+      ,'([A-Z]{2,6}) ([0-9]{1,3}) to '
+      ,'([A-Z]{2,6}) (End Zone|[0-9]{1,3})\\. '
       ,'touchback\\.'
     )
   Cond5 <- grepl(regParse5, x[,"scoreText"]) & !grepl('Penalty', x[,"scoreText"]) & !Cond & !Cond2 & !Cond3 & !Cond4
@@ -116,9 +116,9 @@ ParsePunt <- function(x){
       "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
       ,'punts ([0-9]{1,3}) '
       ,'yards from '
-      ,'([A-Z]{2,4}) ([0-9]{1,3})'
+      ,'([A-Z]{2,6}) ([0-9]{1,3})'
       ,'( Downed at the | to the )'
-      ,"([A-Z]{2,4}) ([0-9]{1,3})(\\.|\\, downed by [0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}\\.)"
+      ,"([A-Z]{2,6}) ([0-9]{1,3})(\\.|\\, downed by [0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}\\.)"
     )
   Cond6 <- grepl(regParse6, x[,"scoreText"]) & !grepl('Penalty', x[,"scoreText"]) & !Cond & !Cond2 & !Cond3 & !Cond4
     

@@ -17,7 +17,7 @@ ParseRush <- function(x){
   regParsePenalty <-
     paste0(
     '(.*) '
-    ,'(Penalty on |Team penalty on )([A-Z]{2,4})\\, '
+    ,'(Penalty on |Team penalty on )([A-Z]{2,6})\\, '
     ,'(.*)\\, declined\\.'
     )
   
@@ -37,7 +37,7 @@ ParseRush <- function(x){
     paste0(
       "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
       ,'(runs ob at|runs to|scrambles to|to|pushed ob|pushed ob at|scrambles, runs ob at|sacked at|scrambles, pushed ob at) '
-      ,'([A-Z]{2,4}) ([0-9]{1,3}) '
+      ,'([A-Z]{2,6}) ([0-9]{1,3}) '
       ,'(for) (-|)([0-9]{1,3}) '
       ,'(yards|yard)(\\.| \\([^*]+\\)\\.)'
     )
@@ -68,7 +68,7 @@ ParseRush <- function(x){
   regParse4 = paste0(
     "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) "
     ,'kneels at '
-    ,'([A-Z]{2,4}) ([0-9]{1,3}) for '
+    ,'([A-Z]{2,6}) ([0-9]{1,3}) for '
     ,'(-|)([0-9]{1,3}) (yards|yard)(\\.| \\([^*]+\\)\\.)' 
   )
   
