@@ -14,13 +14,13 @@ ParsePunt <- function(x){
   # - Fair Catch
   regParse = 
     paste0(
-      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
+      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) "
       ,'punts ([0-9]{1,3}) '
       ,'yards from '
       ,'([A-Z]{2,6}) ([0-9]{1,3}) to '
       ,'([A-Z]{2,6}) ([0-9]{1,3}), '
       ,'fair catch by'
-      ,"( [0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}|)\\."
+      ,"( [0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}|)\\."
     )
   Cond <- grepl(regParse, x[,"scoreText"]) & !grepl('Penalty', x[,"scoreText"])
   
@@ -40,7 +40,7 @@ ParsePunt <- function(x){
   # - Out of Bounds
   regParse2 = 
     paste0(
-      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20} |)"
+      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20} |)"
       ,'punts (-|)([0-9]{1,3}) '
       ,'yards from '
       ,'([A-Z]{2,6}) ([0-9]{1,3}), '
@@ -57,11 +57,11 @@ ParsePunt <- function(x){
   # - Returned
   regParse3 = 
     paste0(
-      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
+      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) "
       ,'punts ([0-9]{1,3}) '
       ,'yards from '
       ,'([A-Z]{2,6} [0-9]{1,3})\\. '
-      ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
+      ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) "
       ,'(runs ob at|runs to|scrambles to|to|pushed ob|pushed ob at) '
       ,'([A-Z]{2,6} [0-9]{1,3}) for '      
       ,'(-|)([0-9]{1,3}) (yards|yard)'
@@ -79,7 +79,7 @@ ParsePunt <- function(x){
   # - Returned TD
   regParse4 = 
     paste0(
-      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
+      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) "
       ,'punts ([0-9]{1,3}) '
       ,'yards from '
       ,'([A-Z]{2,6} [0-9]{1,3})\\. '
@@ -99,7 +99,7 @@ ParsePunt <- function(x){
   # - Touchback
   regParse5 = 
     paste0(
-      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
+      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) "
       ,'punts ([0-9]{1,3}) '
       ,'yards from '
       ,'([A-Z]{2,6}) ([0-9]{1,3}) to '

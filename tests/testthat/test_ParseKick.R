@@ -13,6 +13,10 @@ TestFrame <- data.frame(
     ,"16-A.Gantz kicks 65 yards from CIN 35. 5-J.Thomas runs 100 yards for a touchdown."
     ,"12-L.Kaba kicks 65 yards from TXST 35. -F.Anderson to PRV 35 for 35 yards."
     ,"16-A.Gantz kicks 65 yards from CIN 35 to TEM End Zone. 5-M.Boone, touchback." 
+    ,"kicks 16 yards from BALL 35. to TXAM 49 for 0 yards."
+    ,"91-N.O-Toole kicks 65 yards from WVU 35 to LIB End Zone. touchback."                                                
+    ,"91-N.O-Toole kicks 30 yards from WVU 35, out of bounds at the LIB 35." 
+    ,"91-N.O-Toole kicks 56 yards from WVU 35. 7-D.King to LIB 22 for 13 yards (44-H.Christian)."
     )
   )
 
@@ -23,7 +27,7 @@ test_that("Kickoffs are correctly parsing", {
   
   expect_true(all(Kick$Kick))
   expect_equal(Kick$KickYards,
-                    c(65,58,61,25,45,59,63,49,65,65,65))
+                    c(65,58,61,25,45,59,63,49,65,65,65,16,65,30,56))
   expect_equal(Kick$Kicker,
                     c("45-H.Stover"
                       ,"11-T.Hunt"
@@ -36,6 +40,10 @@ test_that("Kickoffs are correctly parsing", {
                       ,"16-A.Gantz"
                       ,"12-L.Kaba"
                       ,"16-A.Gantz"
+                      ,""
+                      ,"91-N.O-Toole"
+                      ,"91-N.O-Toole"
+                      ,"91-N.O-Toole"
                       ))
   expect_equal(Kick$KickReturn,
                     c(FALSE
@@ -49,6 +57,10 @@ test_that("Kickoffs are correctly parsing", {
                       ,TRUE
                       ,TRUE
                       ,FALSE
+                      ,TRUE
+                      ,FALSE
+                      ,FALSE
+                      ,TRUE
                       ))
   
   expect_equal(Kick$KickReturnYards,
@@ -63,6 +75,10 @@ test_that("Kickoffs are correctly parsing", {
                     ,100
                     ,35
                     ,NA
+                    ,0
+                    ,NA
+                    ,NA
+                    ,13
                     ))
   
   
