@@ -38,7 +38,7 @@ ParseKick <- function(x){
       ,'kicks ([0-9]{1,3}) '
       ,'yards from '
       ,'([A-Z]{2,6} [0-9]{1,3})\\. '
-      ,"([0-9]{0,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) "
+      ,"([0-9]{0,4}-[A-Z]\\.[A-Za-z\\-]{1,20} |)"
       ,'(runs ob at|runs to|scrambles to|to|pushed ob|pushed ob at) '
       ,'([A-Z]{2,6} [0-9]{1,3}) for '      
       ,'(-|)([0-9]{1,3}) (yards|yard)'

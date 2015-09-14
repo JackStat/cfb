@@ -19,6 +19,7 @@ TestFrame <- data.frame(
     ,"91-N.O-Toole kicks 56 yards from WVU 35. 7-D.King to LIB 22 for 13 yards (44-H.Christian)."
     ,"11-T.Grassman kicks 16 yards from BUF 35 to the PSU 49, downed by 88-M.Gesicki to PSU 49 for 0 yards."
     ,"kicks 13 yards from LT 35 to the LT 48, downed by 31-B.Leston."
+    ,"93-H.Lekacz kicks 49 yards from VAN 35. to UGA 13 for -3 yards."
     )
   )
 
@@ -29,7 +30,7 @@ test_that("Kickoffs are correctly parsing", {
   
   expect_true(all(Kick$Kick))
   expect_equal(Kick$KickYards,
-                    c(65,58,61,25,45,59,63,49,65,65,65,16,65,30,56,16,13))
+                    c(65,58,61,25,45,59,63,49,65,65,65,16,65,30,56,16,13,49))
   expect_equal(Kick$Kicker,
                     c("45-H.Stover"
                       ,"11-T.Hunt"
@@ -48,6 +49,7 @@ test_that("Kickoffs are correctly parsing", {
                       ,"91-N.O-Toole"
                       ,"11-T.Grassman"
                       ,""
+                      ,"93-H.Lekacz"
                       ))
   expect_equal(Kick$KickReturn,
                     c(FALSE
@@ -67,6 +69,7 @@ test_that("Kickoffs are correctly parsing", {
                       ,TRUE
                       ,FALSE
                       ,FALSE
+                      ,TRUE
                       ))
   
   expect_equal(Kick$KickReturnYards,
@@ -87,6 +90,7 @@ test_that("Kickoffs are correctly parsing", {
                     ,13
                     ,NA
                     ,NA
+                    ,-3
                     ))
   
   
