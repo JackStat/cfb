@@ -20,6 +20,7 @@ ParseKick <- function(x){
   
   x$Kick = FALSE
   x$KickReturn = FALSE
+  x$KickYards = NA
   
   x$Kick[Cond] = TRUE
   x$Kicker[Cond] = gsub(regParse, '\\1', x[Cond,"scoreText"])
