@@ -59,7 +59,7 @@ ParseKick <- function(x){
   # - Downed
   regParse3 = 
     paste0(
-      "([0-9]{0,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) "
+      "([0-9]{0,4}-[A-Z]\\.[A-Za-z\\-]{1,20} |)"
       ,'kicks ([0-9]{1,3}) '
       ,'yards from '
       ,'([A-Z]{2,6}) ([0-9]{1,3}) to( the|) '
@@ -72,7 +72,7 @@ ParseKick <- function(x){
   
   x$Kick[Cond3] = TRUE
   x$KickReturn[Cond3] = FALSE
-  x$Kicker[Cond3] = gsub(regParse3, '\\1', x[Cond3,"scoreText"])
+  x$Kicker[Cond3] = trim(gsub(regParse3, '\\1', x[Cond3,"scoreText"]))
   x$KickYards[Cond3] = gsub(regParse3, '\\2', x[Cond3,"scoreText"])
   
   
