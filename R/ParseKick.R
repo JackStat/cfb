@@ -92,6 +92,27 @@ ParseKick <- function(x){
   x$Kicker[Cond4] = gsub(regParse4, '\\1', x[Cond4,"scoreText"])
   x$KickYards[Cond4] = gsub(regParse4, '\\2', x[Cond4,"scoreText"])
   
+  
+  regParse5 = 
+    paste0(
+      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
+      ,'kicks ([0-9]{1,3}) '
+      ,'yards from '
+      ,'([A-Z]{2,6} [0-9]{1,3})\\. '
+      ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
+      ,'(runs) '
+      ,'([0-9]{1,3}) yards for a touchdown\\.'
+    )
+  
+  Cond5 <- grepl(regParse5, x[,"scoreText"]) & !grepl('Penalty', x[,"scoreText"]) & !Cond & !Cond2 & !Cond3 & !Cond4
+  
+  x$Kick[Cond5] = TRUE
+  x$KickReturn[Cond5] = TRUE
+  x$Kicker[Cond5] = gsub(regParse5, '\\1', x[Cond5,"scoreText"])
+  x$KickYards[Cond5] = gsub(regParse5, '\\2', x[Cond5,"scoreText"])
+  x$KickReturnYards[Cond5] = gsub(regParse5, '\\6', x[Cond5,"scoreText"])
+  
+  
   x$KickYards = as.numeric(x$KickYards)
   
   # - Handling games with no kick returns
