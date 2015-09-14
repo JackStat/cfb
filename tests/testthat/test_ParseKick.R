@@ -11,6 +11,8 @@ TestFrame <- data.frame(
     ,'47-J.Mattox kicks 63 yards from TEP 35, out of bounds at the UTS 2.'
     ,'98-C.Rouleau kicks 49 yards from JVS 35 to AUB 16, fair catch by 36-K.Pettway.'
     ,"16-A.Gantz kicks 65 yards from CIN 35. 5-J.Thomas runs 100 yards for a touchdown."
+    ,"12-L.Kaba kicks 65 yards from TXST 35. -F.Anderson to PRV 35 for 35 yards."
+    ,"16-A.Gantz kicks 65 yards from CIN 35 to TEM End Zone. 5-M.Boone, touchback." 
     )
   )
 
@@ -21,7 +23,7 @@ test_that("Kickoffs are correctly parsing", {
   
   expect_true(all(Kick$Kick))
   expect_equal(Kick$KickYards,
-                    c(65,58,61,25,45,59,63,49,65))
+                    c(65,58,61,25,45,59,63,49,65,65,65))
   expect_equal(Kick$Kicker,
                     c("45-H.Stover"
                       ,"11-T.Hunt"
@@ -31,6 +33,8 @@ test_that("Kickoffs are correctly parsing", {
                       ,"48-D.Cadona"
                       ,"47-J.Mattox"
                       ,"98-C.Rouleau"
+                      ,"16-A.Gantz"
+                      ,"12-L.Kaba"
                       ,"16-A.Gantz"
                       ))
   expect_equal(Kick$KickReturn,
@@ -43,6 +47,8 @@ test_that("Kickoffs are correctly parsing", {
                       ,FALSE
                       ,FALSE
                       ,TRUE
+                      ,TRUE
+                      ,FALSE
                       ))
   
   expect_equal(Kick$KickReturnYards,
@@ -55,6 +61,8 @@ test_that("Kickoffs are correctly parsing", {
                     ,NA
                     ,NA
                     ,100
+                    ,35
+                    ,NA
                     ))
   
   
