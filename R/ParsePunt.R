@@ -17,8 +17,8 @@ ParsePunt <- function(x){
       ,'yards from '
       ,'([A-Z]{2,6}) ([0-9]{1,3}) to '
       ,'([A-Z]{2,6}) ([0-9]{1,3}), '
-      ,'fair catch by '
-      ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20})\\."
+      ,'fair catch by'
+      ,"( [0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}|)\\."
     )
   Cond <- grepl(regParse, x[,"scoreText"]) & !grepl('Penalty', x[,"scoreText"])
   
