@@ -38,8 +38,8 @@ ParsePunt <- function(x){
   # - Out of Bounds
   regParse2 = 
     paste0(
-      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
-      ,'punts ([0-9]{1,3}) '
+      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20} |)"
+      ,'punts (-|)([0-9]{1,3}) '
       ,'yards from '
       ,'([A-Z]{2,6}) ([0-9]{1,3}), '
       ,'out of bounds at the '
@@ -48,8 +48,8 @@ ParsePunt <- function(x){
   Cond2 <- grepl(regParse2, x[,"scoreText"]) & !grepl('Penalty', x[,"scoreText"]) & !Cond
     
   x$Punt[Cond2] = TRUE
-  x$Kicker[Cond2] = gsub(regParse2, '\\1', x[Cond2,"scoreText"])
-  x$PuntYards[Cond2] = gsub(regParse2, '\\2', x[Cond2,"scoreText"])
+  x$Kicker[Cond2] = trim(gsub(regParse2, '\\1', x[Cond2,"scoreText"]))
+  x$PuntYards[Cond2] = gsub(regParse2, '\\2\\3', x[Cond2,"scoreText"])
   
   
   # - Returned
