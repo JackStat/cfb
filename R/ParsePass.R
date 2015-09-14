@@ -27,7 +27,7 @@ ParsePass <- function(x){
   textMod[DeclinedCond] = 
     gsub(regParsePenalty, '\\1', textMod[DeclinedCond])
   
-  
+  textMod <- gsub('no gain', '0 yards', textMod)
   
   # - Incompletes
   regParse = paste0(
@@ -36,7 +36,11 @@ ParsePass <- function(x){
     )
   excludes = 'kicks|Penalty|punts|sacked|FUMBLES|penalty|INTERCEPTED'
   
-  Cond <- grepl(regParse, textMod) & !grepl(excludes, textMod) & grepl('incomplete', textMod)
+  Cond <- 
+    grepl(regParse, textMod) & 
+    !grepl(excludes, textMod) & 
+    grepl('incomplete', textMod)
+  
   x$Passer[Cond] = gsub(regParse, '\\1', textMod[Cond])
   x$Receiver[Cond] = gsub(regParse, '\\3', textMod[Cond])
   x$Receiver = ifelse(x$Receiver == '', NA, x$Receiver)
@@ -55,7 +59,11 @@ ParsePass <- function(x){
     ,'([A-Z]{2,4}) ([0-9]{1,3}) for '
     ,'(-|)([0-9]{1,3}) (yards|yard)(\\.| \\([^*]+\\)\\.)'    
     )
-  Cond2 = grepl(regParse2, textMod) & grepl('complete', textMod)  & !grepl(excludes, textMod)
+  Cond2 = 
+    grepl(regParse2, textMod) & 
+    grepl('complete', textMod)  & 
+    !grepl(excludes, textMod)
+  
   x$Passer[Cond2] = gsub(regParse2, '\\1', textMod[Cond2])
   x$Receiver[Cond2] = gsub(regParse2, '\\2', textMod[Cond2])
   x$PassYards[Cond2] = gsub(regParse2, '\\7\\8', textMod[Cond2])
@@ -73,7 +81,12 @@ ParsePass <- function(x){
     ,'(runs) (-|)([0-9]{1,3}) (yards|yard) for a '
     ,'(touchdown)\\.'    
     )
-  Cond3 = grepl(regParse3, textMod) & grepl('complete', textMod) & !Cond & !Cond2  & !grepl(excludes, textMod)
+  Cond3 = 
+    grepl(regParse3, textMod) & 
+    grepl('complete', textMod) & 
+    !Cond & !Cond2 & 
+    !grepl(excludes, textMod)
+  
   x$Passer[Cond3] = gsub(regParse3, '\\1', textMod[Cond3])
   x$Receiver[Cond3] = gsub(regParse3, '\\2', textMod[Cond3])
   x$PassYards[Cond3] = gsub(regParse3, '\\5\\6', textMod[Cond3])
@@ -89,7 +102,12 @@ ParsePass <- function(x){
     ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) to "
     ,'([A-Z]{2,4}) ([0-9]{1,3}) for no gain\\.'    
     )
-  Cond4 = grepl(regParse4, textMod) & grepl('complete', textMod) & !Cond & !Cond2 & !Cond3  & !grepl(excludes, textMod)
+  Cond4 = 
+    grepl(regParse4, textMod) & 
+    grepl('complete', textMod) & 
+    !Cond & !Cond2 & !Cond3  & 
+    !grepl(excludes, textMod)
+  
   x$Passer[Cond4] = gsub(regParse4, '\\1', textMod[Cond4])
   x$Receiver[Cond4] = gsub(regParse4, '\\2', textMod[Cond4])
   x$PassYards[Cond4] = 0
