@@ -4,7 +4,7 @@
 \alias{NCAAscoreboard}
 \title{Scrape NCAA scoreboard}
 \usage{
-NCAAscoreboard(url)
+NCAAscoreboard(year, week)
 }
 \description{
 Scrape NCAA scoreboard
