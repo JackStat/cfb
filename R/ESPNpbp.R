@@ -1,60 +1,60 @@
-#' @title Scrape ESPN pbp tables.
+#' @title Scrape ESPN pbp json.
 #' 
-#' 
-#' @import XML RCurl dplyr stringr
+#' @import XML foreach
 #' 
 #' @export
 
 
 ESPNpbp <- function(gameId) {
   
-  theurl <- paste0("http://scores.espn.go.com/college-football/playbyplay?gameId=",gameId , "&period=0")
+  url <- paste0("http://scores.espn.go.com/college-football/gamecast?gameId=", gameId)
   
-  pbpPage<-htmlParse(theurl)
+  doc <- htmlParse(url)
   
-  tree <- htmlTreeParse(theurl, isURL=TRUE, useInternalNodes=TRUE)
+  gg <- getNodeSet(doc, '//script')
   
-  pbp <- getNodeSet(pbpPage, '//*[(@id = "gamepackage-drives-wrap")]')
+  gcXML <- sapply(gg, xmlValue)
   
-  pbpSpacy <- str_split(sapply(pbp, xmlValue),'\t{1,1000}|\n{1,1000}')[[1]]
+  rawGameCast <- ss[grepl('NCFGamecast', gcXML)]
   
-  
-  pbpDirty <- pbpSpacy[pbpSpacy != ""]
-  
-  
-  DownX <- '(1st|2nd|3rd|4th) and ([0-9]{1,3}) at ([A-Z]{2,6} |)([0-9]{1,3})'
-  DownG <- (grepl(DownX,pbpDirty))
-  
-  DW <- cumsum(DownG)
-  DownsW <- ifelse(DW==0, 1, DW)
-  
-  Down <- gsub(DownX,'\\1',pbpDirty[DownG])
-  DownYds <- gsub(DownX,'\\2',pbpDirty[DownG])
-  DownSide <- gsub(DownX,'\\3',pbpDirty[DownG])
-  DownYrdLine <- gsub(DownX,'\\4',pbpDirty[DownG])
+  preGC <- gsub('var settings =|[ ]{2,20}|;', '', rawGameCast)
+  GC <- iconv(preGC, "latin1", "ASCII", sub="")
   
   
-  DriveX <- '(.*?)([0-9]{1,3} )plays, ((-|)[0-9]{1,3} )(yards, |yard, )([0-9]{1,2}:[0-9]{1,2})([A-Z]{2,6})([0-9]{,3})([A-Z]{2,6})([0-9]{,3})'
-  DriveG <- grepl(DriveX,pbpDirty)
-  DriveW <- which(DriveG)
+  gamecastData <- jsonlite::fromJSON(Money3)
+  
+  
+  gamecastData$data$gamecast$playbyplay$drives$plays[[1]]$players
+  
+  
+  Plays <- gamecastData$data$gamecast$playbyplay$drives$plays
+  
+  
+  player <- foreach(i = 1:length(Plays), .combine = 'rbind', .errorhandling = 'remove') %do% {
+    
+    data.frame(
+      play_id = rep(Plays[[i]]$id, sapply(Plays[[i]]$players, nrow))
+      ,do.call(rbind, Plays[[i]]$players)
+    )
+    
+  }
+  
+  play <- foreach(i = 1:length(Plays), .combine = 'rbind', .errorhandling = 'remove') %do% {
+    
+    Plays[[i]][,sapply(Plays[[i]], class) != 'list']
+  }
+    
+  
+  list(play = play, player = player)
 
-  
-  QuarterX <- 'End of (1st|2nd|3rd|4th) Quarter'
-  QuarterG <- grepl(QuarterX,pbpDirty)
-  QsW <- cumsum(grepl(QuarterX,pbpDirty))+1
-  QuarterW <- ifelse(QsW==5, 4, QsW)
-  
-  
-  data.frame(
-    gameId = gameId
-    ,pbpText = pbpDirty
-    ,Quarter = QuarterW
-    ,Down = Down[DownsW]
-    ,DownYds = DownYds[DownsW]
-    ,DownSide = DownSide[DownsW]
-    ,DownYrdLine = DownYrdLine[DownsW]
-  ) %>% 
-    .[!DownG & !DriveG & !QuarterG,] 
+
+
+
+
+
+
+
+
   
 }
 
