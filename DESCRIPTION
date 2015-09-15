@@ -3,10 +3,15 @@ Type: Package
 Title: Collection of functions for manipulating college football data
 Version: 1.0
 Date: 2015-01-25
-Author@R: person("Tyler", "Hunt", , "tyler@psychoanalytix.com", role = c("aut", "cre"))
+Authors@R: person("Tyler", "Hunt", , "tyler@psychoanalytix.com", role = c("aut", "cre"))
 Maintainer: <tyler@psychoanalytix.com>
 Description: Scrapes NCAA, ESPN, Sagarin, etc. and parses play-by-play data
 License: MIT
 Imports: 
-  dplyr
+  dplyr,
+  XML,
+  foreach,
+  jsonlite,
+  stringr,
+  RCurl
 Suggests: testthat
