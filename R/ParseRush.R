@@ -29,6 +29,7 @@ ParseRush <- function(x){
   
   x$Kneel = FALSE
   x$RushAtt = FALSE
+  x$RushYards = NA
   
   
   # - Style 1
@@ -43,7 +44,7 @@ ParseRush <- function(x){
     #Fixing no gain...
   
   
-  excludes = 'complete|kicks|Penalty|punts|FUMBLES|penalty'
+  excludes = 'complete|kicks|Penalty|punts|FUMBLES|penalty|Field Goal'
   Cond <- grepl(regParse, textMod) & !grepl(excludes, textMod)
   x$Rusher[Cond] = trim(gsub(regParse, '\\1', textMod[Cond]))
   

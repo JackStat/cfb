@@ -41,6 +41,16 @@ TestFrame <- data.frame(
   )
 
 
+FailTests <- data.frame(
+    scoreText = c(
+      "92-K.Bambard 33 yards Field Goal is No Good. blocked by 27-S.Absanon. to EKY 20 for no gain."
+    )
+)
+
+  
+  
+
+
 context("Rushing Attempts")
 test_that("Rushing Attempts are correctly parsing", {
   Rushes <- ParseRush(TestFrame)
@@ -85,5 +95,9 @@ test_that("Rushing Attempts are correctly parsing", {
                       ,""
                       ,""
                       )))  
+  
+  
+  
+  notRushes <- ParseRush(FailTests)
   
 })
