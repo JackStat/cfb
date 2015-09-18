@@ -81,20 +81,20 @@ NCAAscoreboard <- function(year, week){
         ,game_state      = rawfromJSON$scoreboard$games[[k]]$gameState
         ,start_ts        = as.POSIXct(as.numeric(rawfromJSON$scoreboard$games[[k]]$startTimeEpoch), origin = '1970-01-01')
         ,current_period  = rawfromJSON$scoreboard$games[[k]]$currentPeriod
-        ,final_message   = rawfromJSON$scoreboard$games[[k]]$finalMessage
-        ,game_status     = rawfromJSON$scoreboard$games[[k]]$gameStatus
-        ,period_status   = rawfromJSON$scoreboard$games[[k]]$periodStatus
-        ,down_to_go      = rawfromJSON$scoreboard$games[[k]]$downToGo
+        # ,final_message   = rawfromJSON$scoreboard$games[[k]]$finalMessage
+        # ,game_status     = rawfromJSON$scoreboard$games[[k]]$gameStatus
+        # ,period_status   = rawfromJSON$scoreboard$games[[k]]$periodStatus
+        # ,down_to_go      = rawfromJSON$scoreboard$games[[k]]$downToGo
         ,timeclock       = rawfromJSON$scoreboard$games[[k]]$timeclock
         ,network_logo    = rawfromJSON$scoreboard$games[[k]]$network_logo
         ,location        = rawfromJSON$scoreboard$games[[k]]$location
         ,contest_name    = rawfromJSON$scoreboard$games[[k]]$contestName
         ,url             = rawfromJSON$scoreboard$games[[k]]$url
         ,highlights_url  = rawfromJSON$scoreboard$games[[k]]$highlightsUrl
-        ,live_audio_url  = rawfromJSON$scoreboard$games[[k]]$liveAudioUrl
+        # ,live_audio_url  = rawfromJSON$scoreboard$games[[k]]$liveAudioUrl
         ,game_center_url = rawfromJSON$scoreboard$games[[k]]$gameCenterUrl
         # ,HomeAway
-        ,rawfromJSON$scoreboard$games[[k]]$alerts
+        # ,rawfromJSON$scoreboard$games[[k]]$alerts
         ,jsonLinks
         
         # ,champ_info      = rawfromJSON$scoreboard$games[[k]]$champInfo
