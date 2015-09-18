@@ -130,6 +130,35 @@ ParsePunt <- function(x){
   x$PuntReturn[Cond6] = FALSE
   x$PuntReturnYards[Cond6] = 0
   
+  
+  # - Blocked
+  regParse7 = 
+    paste0(
+      "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20} |)"
+      ,'punts ([0-9]{1,3}) '
+      ,'yards from '
+      ,'([A-Z]{2,6}) ([0-9]{1,3}) '
+      ,'blocked by '
+      ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20})\\. "
+      ,'(.*)\\.'
+    )
+  
+  Cond7 <- 
+    grepl(regParse7, x[,"scoreText"]) & 
+    !grepl('Penalty', x[,"scoreText"]) & 
+    !Cond & !Cond2 & !Cond3 & !Cond4 & !Cond5 & !Cond6
+    
+  x$Punt[Cond7] = TRUE
+  x$Kicker[Cond7] = gsub(regParse7, '\\1', x[Cond7,"scoreText"])
+  x$PuntYards[Cond7] = gsub(regParse7, '\\2', x[Cond7,"scoreText"])
+  x$PuntReturn[Cond7] = FALSE
+  
+  x$PuntBlocked <- Cond7
+  
+  afterBlock <- gsub(regParse7, '\\6', x[Cond7,"scoreText"])
+  
+  
+  
   x$PuntYards = as.numeric(x$PuntYards)
   x$PuntReturnYards = as.numeric(x$PuntReturnYards)
   x

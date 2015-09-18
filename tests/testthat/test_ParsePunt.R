@@ -18,6 +18,8 @@ TestFrame <- data.frame(
     ,"84-E.Keena punts 35 yards from NTX 27 to SMU 38, fair catch by." 
     ,"punts -13 yards from NEV 29, out of bounds at the NEV 16."
     ,"91-N.O-Toole punts 43 yards from WVU 39. 1-Z.Parker to LIB 21 for 3 yards (44-H.Christian)."
+    ,"punts 0 yards from TOL 47 blocked by 31-Z.Quinn. Downed at the ARK 25." 
+    ,"punts 0 yards from NFS 49 blocked by 68-H.Gaylord. 68-H.Gaylord runs 51 yards for a touchdown." 
     )
   )
 
@@ -28,7 +30,7 @@ test_that("Punts are correctly parsing", {
   
   expect_true(all(Punt$Punt))
   expect_equal(Punt$PuntYards,
-                    c(31,39,40,31,44,45,59,39,33,45,39,38,35,-13,43))
+                    c(31,39,40,31,44,45,59,39,33,45,39,38,35,-13,43,0,0))
   expect_equal(Punt$Kicker,
                     c("49-H.Hunt"
                       ,"33-T.Hackett"
@@ -45,6 +47,8 @@ test_that("Punts are correctly parsing", {
                       ,"84-E.Keena"
                       ,""
                       ,"91-N.O-Toole"
+                      ,""
+                      ,""
                       ))
   expect_equal(Punt$PuntReturn,
                     c(FALSE
@@ -62,6 +66,8 @@ test_that("Punts are correctly parsing", {
                       ,FALSE
                       ,FALSE
                       ,TRUE
+                      ,FALSE
+                      ,FALSE
                       ))
   
   expect_equal(Punt$PuntReturnYards,
@@ -80,7 +86,11 @@ test_that("Punts are correctly parsing", {
                     ,NA
                     ,NA
                     ,3
+                    ,NA
+                    ,NA
                     ))
+  
+  expect_equal(Punt$PuntBlocked, grepl(' blocked ', Punt$scoreText))
   
   
 })
