@@ -34,7 +34,7 @@ ParseKick <- function(x){
   # - Returned
   regParse2 = 
     paste0(
-      "([0-9]{0,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) "
+      "([0-9]{0,4}-[A-Z]\\.[A-Za-z\\-]{1,20} |)"
       ,'kicks ([0-9]{1,3}) '
       ,'yards from '
       ,'([A-Z]{2,6} [0-9]{1,3})\\. '
@@ -52,7 +52,7 @@ ParseKick <- function(x){
   
   x$Kick[Cond2] = TRUE
   x$KickReturn[Cond2] = TRUE
-  x$Kicker[Cond2] = gsub(regParse2, '\\1', x[Cond2,"scoreText"])
+  x$Kicker[Cond2] = trim(gsub(regParse2, '\\1', x[Cond2,"scoreText"]))
   x$KickYards[Cond2] = gsub(regParse2, '\\2', x[Cond2,"scoreText"])
   x$KickReturnYards[Cond2] = gsub(regParse2, '\\7\\8', x[Cond2,"scoreText"])
   
@@ -79,7 +79,7 @@ ParseKick <- function(x){
   # - out-of-bounds
   regParse4 = 
     paste0(
-      "([0-9]{0,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) "
+      "([0-9]{0,4}-[A-Z]\\.[A-Za-z\\-]{1,20} |)"
       ,'kicks ([0-9]{1,3}) '
       ,'yards from '
       ,'([A-Z]{2,6}) ([0-9]{1,3}), out of bounds at the '
@@ -93,14 +93,14 @@ ParseKick <- function(x){
   
   x$Kick[Cond4] = TRUE
   x$KickReturn[Cond4] = FALSE
-  x$Kicker[Cond4] = gsub(regParse4, '\\1', x[Cond4,"scoreText"])
+  x$Kicker[Cond4] = trim(gsub(regParse4, '\\1', x[Cond4,"scoreText"]))
   x$KickYards[Cond4] = gsub(regParse4, '\\2', x[Cond4,"scoreText"])
   
   
   # touchdown
   regParse5 = 
     paste0(
-      "([0-9]{0,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) "
+      "([0-9]{0,4}-[A-Z]\\.[A-Za-z\\-]{1,20} |)"
       ,'kicks ([0-9]{1,3}) '
       ,'yards from '
       ,'([A-Z]{2,6} [0-9]{1,3})\\. '
@@ -113,7 +113,7 @@ ParseKick <- function(x){
   
   x$Kick[Cond5] = TRUE
   x$KickReturn[Cond5] = TRUE
-  x$Kicker[Cond5] = gsub(regParse5, '\\1', x[Cond5,"scoreText"])
+  x$Kicker[Cond5] = trim(gsub(regParse5, '\\1', x[Cond5,"scoreText"]))
   x$KickYards[Cond5] = gsub(regParse5, '\\2', x[Cond5,"scoreText"])
   x$KickReturnYards[Cond5] = gsub(regParse5, '\\6', x[Cond5,"scoreText"])
   
