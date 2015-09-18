@@ -2,11 +2,11 @@
 % Please edit documentation in R/ESPNpbp.R
 \name{ESPNpbp}
 \alias{ESPNpbp}
-\title{Scrape ESPN pbp tables.}
+\title{Scrape ESPN pbp json.}
 \usage{
 ESPNpbp(gameId)
 }
 \description{
-Scrape ESPN pbp tables.
+Scrape ESPN pbp json.
 }
 
