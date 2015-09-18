@@ -37,6 +37,7 @@ TestFrame <- data.frame(
     ,"-F.Anderson to TXST 46 for 1 yard."
     ,"kneels at ORE 48 for -2 yards."
     ,"to UMASS 28 for -14 yards."
+    ,"28-D.Chafin to LAM End Zone for 2 yards. Conversion is good." 
     )
   )
 
@@ -53,11 +54,12 @@ FailTests <- data.frame(
 
 context("Rushing Attempts")
 test_that("Rushing Attempts are correctly parsing", {
-  Rushes <- ParseRush(TestFrame)
+  
+  Rushes <- ParseRush(ParseConversion(TestFrame))
   
   expect_true(all(Rushes$RushAtt))
   expect_equal(Rushes$RushYards,
-                    c(6,-15,6,-15,1,1,1,1,-15,15,0,0,0,0,-15,15,15,5,8,2,2,8,0,-1,-10,1,12,-4,-2, 53,4, 0, 1, -2, -14))
+                    c(6,-15,6,-15,1,1,1,1,-15,15,0,0,0,0,-15,15,15,5,8,2,2,8,0,-1,-10,1,12,-4,-2, 53,4, 0, 1, -2, -14, 2))
   expect_true(all(Rushes$Rusher == 
                     c("15-E.McGuire"
                       ,"8-T.Broadway"
@@ -94,6 +96,7 @@ test_that("Rushing Attempts are correctly parsing", {
                       ,"-F.Anderson"
                       ,""
                       ,""
+                      ,"28-D.Chafin"
                       )))  
   
   
