@@ -34,7 +34,7 @@ ParseRush <- function(x){
   # - Style 1
   regParse = 
     paste0(
-      "([0-9]{0,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20}) "
+      "([0-9]{0,4}-[A-Z]\\.[A-Za-z\\'\\-]{1,20} |)"
       ,'(runs ob at|runs to|scrambles to|to|pushed ob|pushed ob at|scrambles, runs ob at|sacked at|scrambles, pushed ob at) '
       ,'([A-Z]{2,6}) ([0-9]{1,3}) '
       ,'(for) (-|)([0-9]{1,3}) '
@@ -45,7 +45,7 @@ ParseRush <- function(x){
   
   excludes = 'complete|kicks|Penalty|punts|FUMBLES|penalty'
   Cond <- grepl(regParse, textMod) & !grepl(excludes, textMod)
-  x$Rusher[Cond] = gsub(regParse, '\\1', textMod[Cond])
+  x$Rusher[Cond] = trim(gsub(regParse, '\\1', textMod[Cond]))
   
   x$RushAtt[Cond] = TRUE
   x$RushYards[Cond] = gsub(regParse, '\\6\\7', textMod[Cond])
