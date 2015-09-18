@@ -17,16 +17,8 @@ test_that("Interceptions are correctly parsing", {
   Int <- ParseInterception(TestFrame)
   
   expect_true(all(Int$Interception))
-  expect_equal(Int$Passer,
-                    c("12-A.Appleby"
-                      ,"12-A.Appleby"
-                      ,"4-T.Armstrong"
-                      ,"12-C.Jones"
-                      ,"12-M.Brewer"
-                      ,"7-E.Jenkins"
-                      ))
-  expect_equal(Int$InterceptionYards,
-                    c(25,55,0,0,0,0))
+  expect_equal(Int$InterceptionYards
+               , c(25,55,0,0,0,0))
   expect_equal(Int$Interceptor,
                     c("5-K.Baxter"
                       ,"21-T.Lang"
@@ -35,7 +27,5 @@ test_that("Interceptions are correctly parsing", {
                       ,"11-V.Bell"
                       ,"23-J.Ford"
                       ))
-  expect_true(all(Int$PassAtt))
-  
   
 })

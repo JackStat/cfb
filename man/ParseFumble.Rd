@@ -2,11 +2,11 @@
 % Please edit documentation in R/ParseFumble.R
 \name{ParseFumble}
 \alias{ParseFumble}
-\title{Identify No Plays}
+\title{Find and Parse Fumbles}
 \usage{
 ParseFumble(x)
 }
 \description{
-Identify No Plays
+Find and Parse Fumbles
 }
 

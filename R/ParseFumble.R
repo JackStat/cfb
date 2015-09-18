@@ -1,51 +1,41 @@
-#' @title Identify No Plays
+#' @title Find and Parse Fumbles
 #' 
 #' 
 #' @export
 
+
 ParseFumble <- function(x){
   
-  x <- cleanPlayers(x)
+  x$scoreText <- gsub('no gain', '0 yards', x$scoreText)
   
-  x$Fumble = FALSE
-  x$FumbleYards = rep(NA, nrow(x))
-  x$Turnover = FALSE
+  x$Fumble <- grepl('FUMBLES', x$scoreText)
   
-  # - Rushing Fumble
-  regParse = paste0(
-    "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) to "
-    ,'([A-Z]{2,6}) ([0-9]{1,3}), FUMBLES\\. '
-    ,"([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) to "
-    ,'([A-Z]{2,6}) ([0-9]{1,3}) for '
-    ,'([0-9]{1,3}) yards\\.'
-  )
+  x$fumbleText[x$Fumble] <- 
+    gsub('(.*?)(FUMBLES)(\\.|)(.*)', '\\2\\4', x$scoreText[x$Fumble])
   
-  Cond <- grepl(regParse, x[,'scoreText'])
+  x$scoreText <- gsub('(.*), (FUMBLES)(.*)', '\\1\\.', x$scoreText)
   
-  x$Fumble[Cond] = TRUE
-  x$FumbleYards[Cond] <- as.numeric(
-    gsub(regParse, '\\7', x[Cond,'scoreText'])
+  
+  x$FumbleReturner = NA
+  x$FumbleReturnYards = NA
+  
+  regParse <- 
+    paste0(
+      'FUMBLES '
+      ,'\\(([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20})\\)\\. '
+      ,'([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-]{1,20}) '
+      ,'(to|runs|runs ob at) '
+      ,'([A-Z]{2,6}) ([0-9]{1,3}) for '
+      ,'([0-9]{1,3}) '
+      ,'(yard|yards)\\.'
     )
   
-   # - Sacked Fumble
-  regParse2 = paste0(
-    "([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) "
-    ,'sacked at '
-    ,'([A-Z]{2,6} [0-9]{1,3}) '
-    ,'for '
-    ,'(-|)([0-9]{1,3}) (yards|yard), '
-    ,'FUMBLES '
-    ,"(\\([0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}\\)\\.|[0-9]{1,4}-[A-Z]\\.[A-Za-z\\-\\']{1,20}) to "
-    ,'([A-Z]{2,6} [0-9]{1,3}) for '
-    ,'([0-9]{1,3}) yards\\.'
-  )
+  Cond <- grepl(regParse, x$fumbleText) 
   
-  Cond2 <- grepl(regParse2, x[,'scoreText']) & !Cond
+  x$FumbleReturner[Cond] = gsub(regParse, '\\2', x$fumbleText[Cond])
+  x$FumbleReturnYards[Cond] = gsub(regParse, '\\6', x$fumbleText[Cond])
   
-  x$Fumble[Cond2] = TRUE
-  x$FumbleYards[Cond2] <- as.numeric(gsub(regParse2, '\\8', x[Cond2,'scoreText']))
-  # - If turnover the recovery player should be in parentheses
-  x$Turnover[Cond2] = grepl('\\(', gsub(regParse2, '\\6', x[Cond2,'scoreText']))
+  x$FumbleReturnYards = as.numeric(x$FumbleReturnYards)
   
   x
   
