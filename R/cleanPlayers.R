@@ -20,6 +20,10 @@ cleanPlayers <- function(x){
   # Players with single qoute in name...
   x$scoreText <- gsub("([0-9]{0,3}-[A-Z]{1,1}\\.[A-Z]{1,1})'([A-Z]{1,1}[a-z]{1,20})",'\\1-\\2', x$scoreText)
 
+  # 13-N.Dorka, Jr.
+  x$scoreText <- gsub("([0-9]{0,3}-[A-Z]{1,1}\\.[A-Z]{1,1}[a-z]{1,20}), (Jr)\\.",'\\1-\\2', x$scoreText)
+
+  
   x
   
 }
