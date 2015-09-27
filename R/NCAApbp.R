@@ -29,13 +29,18 @@ Main <- foreach(i = 1:length(rawfromJSON$periods$possessions), .combine = 'rbind
 }
 
 
+Opponent1 <- rawfromJSON$meta$teams[rawfromJSON$meta$teams$homeTeam == 'false',]$shortname
+Opponent2 <- rawfromJSON$meta$teams[rawfromJSON$meta$teams$homeTeam == 'true',]$shortname
+
 Main %>%
   mutate(
     teamId = as.character(teamId)
   ) %>%
   left_join(rawfromJSON$meta$teams, by = c('teamId' = 'id')) %>%
   mutate(
-    visitingScore = cleanScores(visitingScore)
+    Team = ifelse(homeTeam == 'true', Opponent2, Opponent1)
+    ,Opponent = ifelse(homeTeam == 'false', Opponent2, Opponent1)
+    ,visitingScore = cleanScores(visitingScore)
     ,homeScore = cleanScores(homeScore)
     ,homeTeam = homeTeam == 'true'
   )
