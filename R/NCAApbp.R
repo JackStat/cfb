@@ -1,7 +1,8 @@
 #' @title Scrape NCAA json files.
 #' 
-#' 
 #' @import dplyr
+#' 
+#' @examples NCAApbp("http://data.ncaa.com/jsonp/game/football/fbs/2015/09/03/michigan-utah/pbp.json")
 #' 
 #' @export
 
