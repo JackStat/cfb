@@ -1,7 +1,8 @@
 #' @title Scrape NCAA scoreboard
 #' 
-#' 
 #' @import dplyr foreach jsonlite
+#' 
+#' @example NCAAscoreboard(2016, 1)
 #' 
 #' @export
 
