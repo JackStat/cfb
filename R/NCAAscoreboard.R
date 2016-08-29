@@ -2,7 +2,7 @@
 #' 
 #' @import dplyr foreach jsonlite
 #' 
-#' @example NCAAscoreboard(2016, 1)
+#' @examples NCAAscoreboard(2016, 1)
 #' 
 #' @export
 

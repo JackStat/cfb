@@ -7,11 +7,13 @@ Authors@R: person("Tyler", "Hunt", , "tyler@psychoanalytix.com", role = c("aut",
 Maintainer: <tyler@psychoanalytix.com>
 Description: Scrapes NCAA, ESPN, Sagarin, etc. and parses play-by-play data
 License: MIT
-Imports: 
-  dplyr,
-  XML,
-  foreach,
-  jsonlite,
-  stringr,
-  RCurl
-Suggests: testthat
+Imports:
+    dplyr,
+    XML,
+    foreach,
+    jsonlite,
+    stringr,
+    RCurl
+Suggests:
+    testthat
+RoxygenNote: 5.0.1
