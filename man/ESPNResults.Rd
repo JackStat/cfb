@@ -4,7 +4,7 @@
 \alias{ESPNResults}
 \title{Scrape ESPN Game Results.}
 \usage{
-ESPNResults(Year)
+ESPNResults(Year = 2016)
 }
 \description{
 Using curl we pull all 254 teams schedules at once. Use this function sparingly as is hits ESPN's servers in an intense way. Takes about 25 seconds

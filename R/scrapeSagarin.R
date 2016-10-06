@@ -52,7 +52,7 @@ scrapeSagarin <- function(){
     , temp[teamsW+5]
     , sep = "  ")
   
-  temp0<-gsub(" {2,}", ",", temp0)
+  temp0 <- gsub(" {2,}", ",", temp0)
   
   # temp0<-temp0[-1]
   

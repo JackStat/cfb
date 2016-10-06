@@ -3,11 +3,12 @@
 #' 
 #' @import XML curl dplyr
 #' @importFrom tidyr separate
+#' @importFrom jsonlite fromJSON
 #' 
 #' @export
 
 
-ESPNResults <- function(Year) {
+ESPNResults <- function(Year = 2016) {
   
   url<-"http://espn.go.com/college-football/teams"
   
@@ -21,7 +22,7 @@ ESPNResults <- function(Year) {
   
   team<-sapply(X = tableNodes, FUN = xmlValue)
   
-  teamURLs <- paste0('http://www.espn.com/college-football/team/schedule?id=',gsub('(.*)\\/([0-9]{1,5})\\/(.*)','\\2',teamMainURLs))
+  teamURLs <- paste0('http://www.espn.com/college-football/team/schedule/_/id/',gsub('(.*)\\/([0-9]{1,5})\\/(.*)','\\2',teamMainURLs),'/year/', Year)
   
   out <<- list()
   # This is function, function which will be run if data vendor call is successful
@@ -41,14 +42,27 @@ ESPNResults <- function(Year) {
   
   multi_run()
   
+  IdJSON <- function(x){
+    # Basically give me everything between { and } but keep the {}
+    g1 <- gsub("(.*) \\{(.*)\\} (.*)","\\{\\2\\}",x[[1]][[1]])
+    # add in leading double quotes so we can convert form JSON
+    g2 <- gsub("(\\{| )([a-z]{1,})", '\\1"\\2', g1)
+    # add in trailing double quotes so we can convert form JSON
+    g3 <- gsub("([a-z]{1,})(\\:)", '\\1"\\2', g2)
+    as.data.frame(fromJSON(g3))
+  }
+  
   CC <- lapply(out, function(x){
     
-  doc <- xml2::read_html(x$content)
-  data.frame(
-    as.data.frame(rvest::html_table(doc))
-    ,Info = rvest::html_nodes(doc, xpath='//table//tr//td[contains(@colspan, 4)]') %>% rvest::html_text()
-    ,url = x$url
-  )
+    doc <- xml2::read_html(x$content)
+    
+    IdInfo <- rvest::html_nodes(doc, xpath="/html/body[contains(@class, 'ncf')]") %>% xml2::xml_attrs()
+    Info <- rvest::html_nodes(doc, xpath='//table//tr//td[contains(@colspan, 4)]') %>% rvest::html_text()
+    data.frame(
+      as.data.frame(rvest::html_table(doc))
+      ,Info = Info[1]
+      ,IdJSON(IdInfo)
+    )
   })
   
   dirtyGames <- do.call(rbind, CC)
@@ -67,9 +81,10 @@ ESPNResults <- function(Year) {
       ,Year = substr(Info, 1, 4)
       ,Team = gsub('([0-9]{,4}) (.*) (Schedule)','\\2',Info)
       ,Date = espnDate(paste(X1, Year))
-      ,espnID = as.numeric(gsub('(.*)\\=([0-9]{1,5})','\\2', url))
+      ,espnID = teamId
+      ,conferenceID = groupId
     ) %>%
-    filter(Result %in% c("W", "L")) %>%
+    filter(Result %in% c("W", "L") & !grepl("BOWL", X1)) %>%
     separate(Score, c("PF1", "PA1")) %>%
     dplyr::select(
       Date
@@ -82,6 +97,29 @@ ESPNResults <- function(Year) {
       ,Year
       ,espnID
     )
+  
+  Numerics <- function(data){
+    findNums<-function(x) apply(x,2, FUN = function(x){!all(grepl('[^0-9]', x))})
+  
+    ff<-findNums(data)
+    
+    if(sum(ff) == 0){
+      data
+    }
+    if(sum(ff) == 1){
+      data[,ff] <- as.numeric(data[,ff])
+      data
+    }else{
+      convert <- function(x) apply(x, 2, as.numeric)
+    
+      data[,ff] <- convert(data[,ff])
+    
+      data
+    }
+
+  }
+  
+  cleanGames <- Numerics(cleanGames)
   
   cleanGames$PF[cleanGames$Result=='L'] = cleanGames$PA1[cleanGames$Result=='L']
   cleanGames$PA[cleanGames$Result=='L'] = cleanGames$PF1[cleanGames$Result=='L']
