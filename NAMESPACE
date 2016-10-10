@@ -3,6 +3,7 @@
 export(APPoll)
 export(ESPNGET)
 export(ESPNResults)
+export(ESPNSchedule)
 export(ESPNpbp)
 export(NCAApbp)
 export(NCAAscoreboard)
