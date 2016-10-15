@@ -14,11 +14,10 @@ coachesPoll <- function(year, week){
   
   data.frame(
     RK = as.numeric(as.character(rr[[1]][-1,1]))
-    ,Team = gsub('([A-Za-z\\(\\)\\&]{2,25})([\n|\t]{1,55})[A-Z]{2,6}(([\n|\t]{1,55}|)\\([0-9]{0,3}\\)|)', '\\1', as.character(rr[[1]][-1,2]))
+    ,Team = gsub('(.*)([a-z]|A&M)([A-Z]{3,5}|TA&M)(\\([0-9]\\)|)', '\\1\\2', as.character(rr[[1]][-1,2]))
     ,Points = ifelse(as.numeric(as.character(rr[[1]][-1,4])) == 0, NA, as.numeric(as.character(rr[[1]][-1,4])))
     ,Year = year
     ,Week = week
-    ,H1 = sapply(getNodeSet(doc, '//*[(@id = "main-container")]//h1'), xmlValue)
     )
   
 }
