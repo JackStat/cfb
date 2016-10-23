@@ -37,24 +37,31 @@ NCAAboxscore <- function(url){
     ins <- foreach(k = 1:length(rawfromJSON$tables$data[[i]]$row), .combine = 'rbind') %do% {
       
       dd <- rawfromJSON$tables$data[[i]]$row[[k]]
-      playerL <- dd$class == 'playerName' & !is.na(dd$class)
+      if(is.null(dd)){
+        NULL
+      } else {
+        playerL <- dd$class == 'playerName' & !is.na(dd$class)
   
-      data.frame(
-        player = trim(dd$display[playerL][1])
-        ,type = tableheader[[i]][1]
-        ,stat = tableheader[[i]][2:length(tableheader[[i]])]
-        ,value = dd$display[!playerL]
-        
-        ,stringsAsFactors = FALSE
-      )
-      
+        data.frame(
+          player = trim(dd$display[playerL][1])
+          ,type = tableheader[[i]][1]
+          ,stat = tableheader[[i]][2:length(tableheader[[i]])]
+          ,value = dd$display[!playerL]
+          
+          ,stringsAsFactors = FALSE
+        )
+      }
     }
     
-    data.frame(
-      info[i,]
-      ,ins
-      , row.names = 1:nrow(ins)
-    )
+    if(is.null(ins)){
+      NULL
+    } else {
+      data.frame(
+        info[i,]
+        ,ins
+        , row.names = 1:nrow(ins)
+      )
+    }
   }
   
   # cleaning up the combined stats
