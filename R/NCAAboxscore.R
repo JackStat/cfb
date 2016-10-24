@@ -25,7 +25,14 @@ NCAAboxscore <- function(url){
     ) %>%
     left_join(meta, by = c('headerColor' = 'color')) %>%
     mutate(
-      homeTeam = homeTeam == 'true'
+      home = homeTeam == 'true'
+      ,homeTeam = shortname[home][1]
+      ,awayTeam = shortname[!home][1]
+    ) %>%
+    select(
+      -shortname
+      ,-seoName
+      ,-sixCharAbbr
     )
   
   tableheader <- lapply(rawfromJSON$tables$header, function(x){x$display})

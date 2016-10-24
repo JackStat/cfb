@@ -3,9 +3,6 @@
 #' @import jsonlite
 #' @export
 
-
-
-
 NCAAteamStats<- function(url){
     
   raw<-suppressWarnings(readLines(url))
@@ -15,24 +12,24 @@ NCAAteamStats<- function(url){
   tStats <- foreach(k = 1:length(rawfromJSON$teams), .combine = 'rbind') %do% {
     tt <- foreach(i = 1:length(rawfromJSON$teams$stats[[1]]$stat), .combine = 'rbind') %do% {
     
-    if(is.null(rawfromJSON$teams$stats[[k]]$breakdown[[i]])){
-      tStats = data.frame(
-        teamId = rawfromJSON$teams$teamId[k]
-        ,stat = NA
-        ,data = NA
-        ,Stat = rawfromJSON$teams$stats[[k]]$stat[i]
-        ,Data = rawfromJSON$teams$stats[[k]]$data[i]
-      )
-    } else {
-      
-      tStats = data.frame(
-        teamId = rawfromJSON$teams$teamId[k]
-        ,rawfromJSON$teams$stats[[k]]$breakdown[[i]]
-        ,Stat = rawfromJSON$teams$stats[[k]]$stat[i]
-        ,Data = rawfromJSON$teams$stats[[k]]$data[i]
-      )
-      
-    }
+      if(is.null(rawfromJSON$teams$stats[[k]]$breakdown[[i]])){
+        tStats = data.frame(
+          teamId = rawfromJSON$teams$teamId[k]
+          ,stat = NA
+          ,data = NA
+          ,Stat = rawfromJSON$teams$stats[[k]]$stat[i]
+          ,Data = rawfromJSON$teams$stats[[k]]$data[i]
+        )
+      } else {
+        
+        tStats = data.frame(
+          teamId = rawfromJSON$teams$teamId[k]
+          ,rawfromJSON$teams$stats[[k]]$breakdown[[i]]
+          ,Stat = rawfromJSON$teams$stats[[k]]$stat[i]
+          ,Data = rawfromJSON$teams$stats[[k]]$data[i]
+        )
+        
+      }
     }
     
     tt %>%
