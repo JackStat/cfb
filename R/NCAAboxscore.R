@@ -28,11 +28,14 @@ NCAAboxscore <- function(url){
       home = homeTeam == 'true'
       ,homeTeam = shortname[home][1]
       ,awayTeam = shortname[!home][1]
+      ,homeColor = headerColor[home][1]
+      ,awayColor = headerColor[!home][1]
     ) %>%
     select(
       -shortname
       ,-seoName
       ,-sixCharAbbr
+      ,-headerColor
     )
   
   tableheader <- lapply(rawfromJSON$tables$header, function(x){x$display})
