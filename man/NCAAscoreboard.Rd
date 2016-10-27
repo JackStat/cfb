@@ -4,7 +4,7 @@
 \alias{NCAAscoreboard}
 \title{Scrape NCAA scoreboard}
 \usage{
-NCAAscoreboard(year, week)
+NCAAscoreboard(year = 2016, week = 1)
 }
 \examples{
 NCAAscoreboard(2016, 1)
