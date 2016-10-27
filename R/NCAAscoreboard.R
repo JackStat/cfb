@@ -6,21 +6,16 @@
 #' 
 #' @export
 
-NCAAscoreboard <- function(year, week){
+NCAAscoreboard <- function(year = 2016, week = 1){
 
-  Week = ifelse(nchar(week) ==1, paste0(0,week), week)
+  Week = ifelse(nchar(week) == 1, paste0(0,week), week)
   
-  url = paste0('http://data.ncaa.com//jsonp//scoreboard//football//fbs//', year, "//", Week, '//scoreboard.html')
-    
-    
-  raw<-suppressWarnings(readLines(url))
+  url = paste0('http://data.ncaa.com/sites/default/files/data/scoreboard/football/fbs/', year, "/", Week, '/scoreboard.html')
   
-  rawfromJSON <- fromJSON((gsub('callbackWrapper\\(','',gsub('\\}\\)\\;','\\}',raw))))
-  
+  rawfromJSON <- fromJSON(url)
   
   foreach(k = 1:length(rawfromJSON$scoreboard$games), .combine = 'rbind') %do% {
     
-  #   HomeStuff <- rawfromJSON$scoreboard$games[[k]]$home
   #   colnames(HomeStuff) = paste0('home.', colnames(HomeStuff))
   #   
   #   homeQuarters <- data.frame(do.call(rbind, HomeStuff$home.scoreBreakdown))

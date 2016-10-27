@@ -11,9 +11,7 @@
 
 NCAAboxscore <- function(url){
   
-  raw <- suppressWarnings(readLines(url))
-
-  rawfromJSON <- fromJSON((gsub('callbackWrapper\\(','',gsub('\\}\\)\\;','\\}',raw))))
+  rawfromJSON <- fromJSON(gsub("jsonp", "sites/default/files/data", url))
   
   meta <- rawfromJSON$meta$teams
   

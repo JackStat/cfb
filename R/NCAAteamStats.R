@@ -5,9 +5,7 @@
 
 NCAAteamStats<- function(url){
     
-  raw<-suppressWarnings(readLines(url))
-  
-  rawfromJSON <- fromJSON((gsub('callbackWrapper\\(','',gsub('\\}\\)\\;','\\}',raw))))
+  rawfromJSON <- fromJSON(gsub("jsonp", "sites/default/files/data", url))
   
   tStats <- foreach(k = 1:length(rawfromJSON$teams), .combine = 'rbind') %do% {
     tt <- foreach(i = 1:length(rawfromJSON$teams$stats[[1]]$stat), .combine = 'rbind') %do% {
