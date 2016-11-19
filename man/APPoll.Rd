@@ -2,8 +2,8 @@
 % Please edit documentation in R/APPoll.R
 \name{APPoll}
 \alias{APPoll}
-\title{Scrape AP Poll}
+\title{Scrape AP Poll from ESPN}
 \usage{
-APPoll(PollID)
+APPoll(year, week)
 }
 
